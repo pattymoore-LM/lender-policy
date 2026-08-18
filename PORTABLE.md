@@ -63,16 +63,43 @@ awk '/^## HECS/{f=1;next}/^## /{f=0}f' anz.md
 
 Or just open the folder in any editor — VS Code, Sublime, even TextEdit — and use find-in-files. Less magic than asking a question in English, still a great deal faster than clicking through Quickli lender by lender.
 
-### With another AI tool
+### With GitHub Copilot, Cursor, or another AI tool
 
-Anything that reads local files works: Copilot, Cursor, Cody, and similar. Point it at `~/lender-policy/` and give it the contents of [`plugins/lender-policy/skills/policy/SKILL.md`](plugins/lender-policy/skills/policy/SKILL.md) as its instructions — a `.cursorrules` file, a `.github/copilot-instructions.md`, a custom command, whatever that tool uses for standing rules.
+The repo ships the instruction file for you — you don't have to write one.
 
-The important parts to keep, whatever tool you use:
+**1.** Download [`portable/AGENTS.md`](portable/AGENTS.md) from this repo and put it
+in the root of your KB folder, next to `INDEX.md`:
 
-- Grep the `## Topic` headings rather than loading whole files
-- Quote the policy line verbatim, don't paraphrase it
-- End every answer with the snapshot date and "confirm live in Quickli before advice"
-- Say "no entry" when the KB has none, never guess a position
+```
+~/lender-policy/
+  AGENTS.md          <- this file
+  INDEX.md
+  topics.md
+  lenders/
+```
+
+**2.** Open that folder in VS Code (File > Open Folder, pick `~/lender-policy`).
+
+**3.** Ask Copilot Chat a question. That's it.
+
+VS Code reads `AGENTS.md` from the root of any opened folder automatically. No git
+repository, no settings to change, no extension beyond Copilot itself. Cursor reads
+`AGENTS.md` too, so the same file covers both.
+
+If you'd rather use Copilot's own convention, the repo also ships
+[`portable/.github/copilot-instructions.md`](portable/.github/copilot-instructions.md)
+with identical content — put it at `~/lender-policy/.github/copilot-instructions.md`
+instead. Either works; you don't need both.
+
+**What the instruction file does:** it teaches the tool the same discipline the
+Claude Code skill uses — search by `## Topic` heading rather than loading whole
+files, quote policy lines verbatim, say "no entry" instead of guessing, respect
+lender-manual-beats-Quickli precedence, stamp every answer with the snapshot date,
+and never attempt servicing maths.
+
+One difference from Claude Code: Copilot can't drive your browser, so the monthly
+refresh is you re-running the DevTools snippet by hand rather than asking for it.
+Everything after the pull is identical.
 
 ### Not with a web chatbot
 

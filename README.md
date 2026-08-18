@@ -22,7 +22,11 @@ Two lines inside Claude Code. No Terminal, no git, no GitHub account.
 
 Then `/policy build` for the first pull. Takes a few minutes.
 
-Not using Claude Code? See **[PORTABLE.md](PORTABLE.md)** — the whole thing works with no AI tool at all.
+**On Copilot or Cursor instead?** Works too — drop [`portable/AGENTS.md`](portable/AGENTS.md)
+into your KB folder and open it in VS Code. See **[PORTABLE.md](PORTABLE.md)**.
+
+**No AI tool at all?** Also works. The output is searchable markdown and a bundled
+DevTools snippet does the pull. Same page.
 
 ## What you need
 
@@ -72,7 +76,8 @@ Refreshes are incremental: only lenders whose policy actually moved get re-pulle
 | | |
 |---|---|
 | **[LESSONS.md](LESSONS.md)** | What I got wrong building this, so you don't have to. Worth five minutes. |
-| **[PORTABLE.md](PORTABLE.md)** | The no-Claude route. Works with any AI tool, or none. |
+| **[PORTABLE.md](PORTABLE.md)** | The no-Claude route: Copilot, Cursor, or no AI tool at all. |
+| **[portable/AGENTS.md](portable/AGENTS.md)** | Drop-in instruction file for Copilot/Cursor. Read automatically by VS Code. |
 | **[QUICKSTART.md](QUICKSTART.md)** | The DIY version if you'd rather build it yourself than install a plugin. |
 
 ## Updates
