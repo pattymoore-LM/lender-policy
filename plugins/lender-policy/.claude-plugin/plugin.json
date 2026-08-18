@@ -1,0 +1,16 @@
+{
+  "name": "lender-policy",
+  "version": "1.0.0",
+  "description": "Build a local, searchable lender policy knowledge base from your own Quickli subscription, then ask it questions in plain English. Australian mortgage brokers.",
+  "author": {
+    "name": "Patrick Moore"
+  },
+  "homepage": "https://github.com/pattymoore-LM/lender-policy",
+  "keywords": [
+    "mortgage",
+    "broker",
+    "lender-policy",
+    "quickli",
+    "australia"
+  ]
+}

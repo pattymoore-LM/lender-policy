@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# Belt and braces. If you build your KB inside a clone of this repo, these
+# rules stop your own licensed policy content being committed and pushed.
+#
+# The rendered KB is Quickli's product held under YOUR subscription, plus
+# lender credit manuals held under YOUR accreditation. It never goes in git.
+# ---------------------------------------------------------------------------
+
+# Rendered Quickli policy
+lenders/
+INDEX.md
+topics.md
+desk.md
+
+# Raw API snapshots
+_source/
+
+# Lender credit manuals and calculator workbooks
+primary/
+FRESHNESS.md
+
+# Source documents of any kind
+*.pdf
+*.xlsm
+*.xlsx
+*.csv
+
+# Snapshot downloads
+quickli-policy-snapshot-*.json
+
+# ---------------------------------------------------------------------------
+# Housekeeping
+# ---------------------------------------------------------------------------
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+
+# One-time local setup helper, not for publication
+finish-setup.sh
