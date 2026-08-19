@@ -22,8 +22,9 @@ Two lines inside Claude Code. No Terminal, no git, no GitHub account.
 
 Then `/policy build` for the first pull. Takes a few minutes.
 
-**On Copilot or Cursor instead?** Works too — drop [`portable/AGENTS.md`](portable/AGENTS.md)
-into your KB folder and open it in VS Code. See **[PORTABLE.md](PORTABLE.md)**.
+**On Copilot, Cursor or Codex instead?** Works too — drop [`portable/AGENTS.md`](portable/AGENTS.md)
+into your KB folder. All three read it. (ChatGPT users: Codex is included in your
+Plus plan.) See **[PORTABLE.md](PORTABLE.md)**.
 
 **No AI tool at all?** Also works. The output is searchable markdown and a bundled
 DevTools snippet does the pull. Same page.

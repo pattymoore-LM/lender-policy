@@ -63,7 +63,7 @@ awk '/^## HECS/{f=1;next}/^## /{f=0}f' anz.md
 
 Or just open the folder in any editor — VS Code, Sublime, even TextEdit — and use find-in-files. Less magic than asking a question in English, still a great deal faster than clicking through Quickli lender by lender.
 
-### With GitHub Copilot, Cursor, or another AI tool
+### With GitHub Copilot, Cursor, or Codex
 
 The repo ships the instruction file for you — you don't have to write one.
 
@@ -83,8 +83,15 @@ in the root of your KB folder, next to `INDEX.md`:
 **3.** Ask Copilot Chat a question. That's it.
 
 VS Code reads `AGENTS.md` from the root of any opened folder automatically. No git
-repository, no settings to change, no extension beyond Copilot itself. Cursor reads
-`AGENTS.md` too, so the same file covers both.
+repository, no settings to change, no extension beyond Copilot itself.
+
+**Cursor** reads `AGENTS.md` too — same file, nothing extra.
+
+**On ChatGPT?** Use **Codex**, which is included in a ChatGPT Plus, Pro or Team
+plan. Codex CLI reads `AGENTS.md` from the project root or the directory you run it
+in, so `cd ~/lender-policy` and start Codex there. Same file again.
+
+One instruction file covers all three.
 
 If you'd rather use Copilot's own convention, the repo also ships
 [`portable/.github/copilot-instructions.md`](portable/.github/copilot-instructions.md)
@@ -97,7 +104,7 @@ files, quote policy lines verbatim, say "no entry" instead of guessing, respect
 lender-manual-beats-Quickli precedence, stamp every answer with the snapshot date,
 and never attempt servicing maths.
 
-One difference from Claude Code: Copilot can't drive your browser, so the monthly
+One difference from Claude Code: none of these drive your browser, so the monthly
 refresh is you re-running the DevTools snippet by hand rather than asking for it.
 Everything after the pull is identical.
 

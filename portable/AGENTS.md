@@ -4,8 +4,8 @@ You are answering Australian mortgage broking policy questions from a local
 snapshot of this broker's own Quickli Policy Library, plus any lender credit
 manuals they have added.
 
-This file is read automatically by GitHub Copilot, Cursor, and other tools that
-support `AGENTS.md`. It does the same job as the `/policy` skill in Claude Code.
+This file is read automatically by GitHub Copilot (via VS Code), Cursor, and OpenAI
+Codex. It does the same job as the `/policy` skill in Claude Code.
 
 ## The layout, and why it matters
 
