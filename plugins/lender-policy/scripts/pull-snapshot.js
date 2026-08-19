@@ -1,6 +1,15 @@
 /* ---------------------------------------------------------------------------
  * pull-snapshot.js — build your Quickli policy snapshot with no AI tool at all.
  *
+ *   >>> THIS GOES IN CHROME, NOT IN TERMINAL. <<<
+ *
+ * If you paste this into Terminal you will get a `quote>` or `dquote>` prompt
+ * that never returns. Press Ctrl+C to get out, then read on.
+ *
+ * Fastest way to get it into Chrome, from Terminal:
+ *     pbcopy < ~/lender-policy/pull-snapshot.js
+ * then switch to Chrome and paste into the console (Cmd+Option+J).
+ *
  * HOW TO USE
  *   1. Log into Quickli in Chrome and open the Policy Library:
  *        https://app.quickli.com.au/policy

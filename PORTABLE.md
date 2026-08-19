@@ -22,14 +22,30 @@ That gets you `render.py`, its lender-name map, the browser snippet, and the
 instruction file that Copilot/Cursor/Codex read.
 
 **2. Pull your library.**
-- Log into Quickli in Chrome and open the Policy Library
-- Click any lender once, so the page loads some policy
-- Press `Cmd+Option+J` (Mac) or `Ctrl+Shift+J` (Windows) for the console
-- Open `~/lender-policy/pull-snapshot.js` in a text editor, copy all of it, paste
-  into the console, press Enter
-- If Chrome refuses, type `allow pasting` in the console first, then paste again
 
-It prints progress and downloads `quickli-policy-snapshot-YYYY-MM-DD.json`.
+> **This step happens in CHROME, not in Terminal.** Pasting the script into Terminal
+> is the single most common mistake — it leaves you at a `quote>` or `dquote>`
+> prompt that sits there forever. Press `Ctrl+C` if that happens to you.
+
+First, in Terminal, put the script on your clipboard:
+
+```bash
+pbcopy < ~/lender-policy/pull-snapshot.js
+```
+
+Nothing visible happens. That is correct. (On Windows: `clip < %USERPROFILE%\lender-policy\pull-snapshot.js`)
+
+Now **switch to Chrome**:
+
+- Log into Quickli and open the Policy Library
+- Click any lender once, so the page loads some policy
+- Press `Cmd+Option+J` (Mac) or `Ctrl+Shift+J` (Windows). A panel opens inside the
+  **Chrome window** with a `>` prompt. That is the console.
+- Click into it, press `Cmd+V` (or `Ctrl+V`), press Enter
+- If Chrome refuses to paste, type `allow pasting`, press Enter, then paste again
+
+You'll see progress lines like `10/45 lenders`. When it finishes it downloads
+`quickli-policy-snapshot-YYYY-MM-DD.json`.
 
 **3. Build it.** Change the date to match your file:
 
