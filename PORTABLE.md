@@ -10,26 +10,47 @@ Layers 1 and 2 work for anyone. What they produce is a folder of well-organised 
 
 ## Build it with no AI tool at all
 
-**1. Get the two files.** On the repo page, click `plugins/lender-policy/scripts/`, open `pull-snapshot.js` and `render.py`, and use the download button on each. Put them somewhere you can find, like your Downloads folder.
+Three copy-pastes, about fifteen minutes.
 
-**2. Pull your library.**
-- Log into Quickli in Chrome and open the Policy Library at `app.quickli.com.au/policy`
-- Click any lender once, so the page loads some policy
-- Open DevTools: `Cmd+Option+J` on a Mac, `Ctrl+Shift+J` on Windows
-- Paste the whole of `pull-snapshot.js` into the Console and press Enter
-- If Chrome asks, type `allow pasting` first, then paste again
-
-It prints progress and downloads `quickli-policy-snapshot-YYYY-MM-DD.json` when it's done.
-
-**3. Render it.** In Terminal:
+**1. Get the files.** Open Terminal and paste this whole block:
 
 ```bash
-python3 ~/Downloads/render.py ~/Downloads/quickli-policy-snapshot-2026-08-19.json --kb ~/lender-policy
+mkdir -p ~/lender-policy && cd ~/lender-policy && curl -sO https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/plugins/lender-policy/scripts/render.py -O https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/plugins/lender-policy/scripts/lender_names.json -O https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/plugins/lender-policy/scripts/pull-snapshot.js -O https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/portable/AGENTS.md
 ```
 
-Change the date to match your file. You get `~/lender-policy/` with one markdown file per lender, an `INDEX.md` freshness table, and a `topics.md` listing every topic heading.
+That gets you `render.py`, its lender-name map, the browser snippet, and the
+instruction file that Copilot/Cursor/Codex read.
 
-Python 3 is already on every Mac. On Windows, install it from python.org and use `python` instead of `python3`.
+**2. Pull your library.**
+- Log into Quickli in Chrome and open the Policy Library
+- Click any lender once, so the page loads some policy
+- Press `Cmd+Option+J` (Mac) or `Ctrl+Shift+J` (Windows) for the console
+- Open `~/lender-policy/pull-snapshot.js` in a text editor, copy all of it, paste
+  into the console, press Enter
+- If Chrome refuses, type `allow pasting` in the console first, then paste again
+
+It prints progress and downloads `quickli-policy-snapshot-YYYY-MM-DD.json`.
+
+**3. Build it.** Change the date to match your file:
+
+```bash
+cd ~/lender-policy && python3 render.py ~/Downloads/quickli-policy-snapshot-2026-08-19.json --kb .
+```
+
+You should see `Rendered N lenders, N policy blocks`. Your folder now looks like:
+
+```
+~/lender-policy/
+  AGENTS.md          instructions for Copilot / Cursor / Codex
+  INDEX.md           freshness table
+  topics.md          the topic vocabulary
+  lenders/           one file per lender
+  render.py          re-run this each refresh
+  pull-snapshot.js   re-run this each refresh
+```
+
+Python 3 is already on every Mac. On Windows install it from python.org and use
+`python` instead of `python3`.
 
 ## Then use it
 
@@ -65,22 +86,11 @@ Or just open the folder in any editor — VS Code, Sublime, even TextEdit — an
 
 ### With GitHub Copilot, Cursor, or Codex
 
-The repo ships the instruction file for you — you don't have to write one.
+Nothing more to install — step 1 above already put `AGENTS.md` in your folder, and
+that is the whole configuration.
 
-**1.** Download [`portable/AGENTS.md`](portable/AGENTS.md) from this repo and put it
-in the root of your KB folder, next to `INDEX.md`:
-
-```
-~/lender-policy/
-  AGENTS.md          <- this file
-  INDEX.md
-  topics.md
-  lenders/
-```
-
-**2.** Open that folder in VS Code (File > Open Folder, pick `~/lender-policy`).
-
-**3.** Ask Copilot Chat a question. That's it.
+**Open the folder in VS Code** (File > Open Folder, pick `~/lender-policy`) and ask
+Copilot Chat a question. That's it.
 
 VS Code reads `AGENTS.md` from the root of any opened folder automatically. No git
 repository, no settings to change, no extension beyond Copilot itself.
