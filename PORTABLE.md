@@ -38,7 +38,7 @@ Nothing visible happens. That is correct. (On Windows: `clip < %USERPROFILE%\len
 Now **switch to Chrome**:
 
 - Log into Quickli and open the Policy Library
-- Click any lender once, so the page loads some policy
+- Click any lender once, so the page loads some policy (helps, not essential)
 - Press `Cmd+Option+J` (Mac) or `Ctrl+Shift+J` (Windows). A panel opens inside the
   **Chrome window** with a `>` prompt. That is the console.
 - Click into it, press `Cmd+V` (or `Ctrl+V`), press Enter

@@ -14,7 +14,8 @@
  *   1. Log into Quickli in Chrome and open the Policy Library:
  *        https://app.quickli.com.au/policy
  *   2. Click any lender once, so the page makes its normal policy request.
- *      (This script reads that request to learn the current topic list.)
+ *      (Helps, but is no longer required — if the script can't read the topic
+ *      list off the page it falls back to a built-in list and carries on.)
  *   3. Open DevTools:  Cmd+Option+J  (Mac)  /  Ctrl+Shift+J  (Windows)
  *   4. Paste this entire file into the Console and press Enter.
  *   5. Wait. It prints progress as it goes, then downloads
@@ -57,16 +58,49 @@
     return null;
   }
 
-  const triggers = recoverTriggers();
-  if (!triggers) {
-    console.error(
-      '[snapshot] Could not find the topic list.\n' +
-      'Fix: click a lender in the Policy Library so the page loads some policy, ' +
-      'then paste this again. Do not reload the page in between.'
-    );
-    return;
+  // Quickli's topic list as at 17/08/2026. Used only when the live recovery
+  // above comes up empty — which happens more than you'd think, because Chrome
+  // caps the performance resource buffer and evicts old entries on a busy page.
+  // A slightly stale list still pulls everything; a failed run pulls nothing.
+  const FALLBACK_TRIGGERS = [
+    'acceptable_security_type', 'self_employed_addbacks', 'car_allowance',
+    'low_doc', 'boarder_income', 'bonus', 'bridging_loans',
+    'buy_now_pay_later', 'cash_out', 'cashback_offers', 'casual',
+    'child_maintenance', 'commission', 'common_debt_reducer',
+    'company_borrowers', 'company_debt', 'construction_loans',
+    'contract_employment', 'credit_impairment', 'credit_scoring', 'dti',
+    'dependants', 'essential_overtime', 'essential_services',
+    'ethical_lending', 'exit_strategy', 'extended_loan_term',
+    'family_employment', 'family_guarantor', 'family_tax_benefit',
+    'fastrefi', 'first_home_guarantee', 'fixed_rates', 'foreign',
+    'carers_income', 'frequent_bonus_payments', 'fully_maintained_vehicle',
+    'genuine_savings', 'social_security', 'hecs', 'rental_holiday',
+    'interest', 'investment', 'lmi_waiver_for_professionals', 'lti', 'loc',
+    'living_expenses', 'margin_loan', 'max_capacity', 'lvr',
+    'maximum_land_size', 'minimum_security_size',
+    'net_rental_affordability_scheme', 'nsr', 'negative_gearing', 'nms',
+    'non_australian_resident', 'notional_rent', 'novated_lease',
+    'overdraft', 'overtime', 'payg', 'parental_leave',
+    'parenting_payments', 'pension', 'policy_niches', 'pre_approvals',
+    'rental_prestige', 'probation', 'rate_lock_policy',
+    'refinance_statement_requirements', 'rental_income', 'rental_reliance',
+    'rental_yield', 'smsf_acceptable_contributions', 'smsf_applicant_type',
+    'smsf_liquid_asset_position', 'smsf_max_lvr', 'salary_sacrifice',
+    'second_job', 'self_employed_income', 'simple_self_employed',
+    'streamlined_refinance', 'annuities', 'tax_free', 'vacant_land',
+    'verification_of_identity', 'visa_classes'
+  ];
+
+  let triggers = recoverTriggers();
+  if (triggers) {
+    log(`found ${triggers.length} topics from the live page`);
+  } else {
+    triggers = FALLBACK_TRIGGERS;
+    warn(`could not read the topic list off the page, using the built-in list ` +
+         `of ${triggers.length} topics (correct as at 17/08/2026). ` +
+         `If Quickli has added topics since, they won't be included — ` +
+         `everything else pulls normally.`);
   }
-  log(`found ${triggers.length} topics`);
 
   // --- 2. Lender list + provenance -----------------------------------------
   let provenance;
