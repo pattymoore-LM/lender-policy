@@ -22,6 +22,8 @@ Two lines inside Claude Code. No Terminal, no git, no GitHub account.
 
 Then `/policy build` for the first pull. Takes a few minutes.
 
+Stuck? **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** covers every failure anyone has hit so far.
+
 **On Copilot, Cursor or Codex instead?** Works too — drop [`portable/AGENTS.md`](portable/AGENTS.md)
 into your KB folder. All three read it. (ChatGPT users: Codex is included in your
 Plus plan.) See **[PORTABLE.md](PORTABLE.md)**.
@@ -80,6 +82,7 @@ Refreshes are incremental: only lenders whose policy actually moved get re-pulle
 | **[PORTABLE.md](PORTABLE.md)** | The no-Claude route: Copilot, Cursor, or no AI tool at all. |
 | **[portable/AGENTS.md](portable/AGENTS.md)** | Drop-in instruction file for Copilot/Cursor. Read automatically by VS Code. |
 | **[QUICKSTART.md](QUICKSTART.md)** | The DIY version if you'd rather build it yourself than install a plugin. |
+| **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** | When it doesn't work. Every failure a real person has hit, with the fix. |
 
 ## Updates
 

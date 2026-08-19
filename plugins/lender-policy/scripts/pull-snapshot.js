@@ -103,14 +103,43 @@
   }
 
   // --- 2. Lender list + provenance -----------------------------------------
+  // Failures here get told apart deliberately. "Are you logged in?" is the right
+  // advice for a 401 and completely misleading for a 404 — and a 404 is what a
+  // broker sees on the day Quickli renames an endpoint, which is not something
+  // they can fix by logging in again.
+  const SUPPORT = 'the repo issues page: github.com/pattymoore-LM/lender-policy/issues';
   let provenance;
   try {
     const res = await fetch('/api/lender-info?lenders=All', { credentials: 'include' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (res.status === 401 || res.status === 403) {
+      console.error(`[snapshot] Quickli says you're not signed in (HTTP ${res.status}).\n` +
+        'Log into Quickli in this tab, then paste this again.');
+      return;
+    }
+    if (res.status === 404) {
+      console.error('[snapshot] Quickli has moved or renamed this endpoint (HTTP 404).\n' +
+        'Nothing you did — the script needs updating. Please report it at ' + SUPPORT);
+      return;
+    }
+    if (!res.ok) {
+      console.error(`[snapshot] Quickli returned HTTP ${res.status}.\n` +
+        'If it keeps happening, report it at ' + SUPPORT);
+      return;
+    }
     provenance = await res.json();
   } catch (e) {
-    console.error('[snapshot] Could not load the lender list:', e.message,
-      '\nAre you still logged in? Reload the page, log in, and try again.');
+    console.error('[snapshot] Could not reach Quickli:', e.message,
+      '\nCheck your connection, make sure this tab is on app.quickli.com.au, and try again.');
+    return;
+  }
+
+  // Validate the shape, not just the status. A 200 carrying a restructured
+  // response is the quiet version of the same failure.
+  if (!Array.isArray(provenance) || !provenance.length ||
+      typeof provenance[0] !== 'object' || !('lender' in provenance[0])) {
+    console.error('[snapshot] Quickli responded, but not in the shape this script expects.\n' +
+      'That means their API has changed. Nothing you did — please report it at ' + SUPPORT +
+      '\nWhat came back:', provenance);
     return;
   }
 

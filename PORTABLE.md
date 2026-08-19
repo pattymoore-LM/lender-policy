@@ -145,3 +145,8 @@ If you want plain-English questions, use a tool that reads the files locally.
 Re-run the snippet monthly and render it again. Lender policy moves, and a stale answer is worse than no answer.
 
 The plugin version does this incrementally — it checks which lenders actually changed and re-pulls only those. Doing it by hand, you just re-pull everything, which takes a couple of minutes and is fine.
+
+## When it doesn't work
+
+See **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**. Every failure below has happened to
+a real person, including both of the ones in the browser step.
