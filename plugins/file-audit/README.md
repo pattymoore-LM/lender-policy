@@ -5,6 +5,10 @@ A read-only audit of one client's document folder, run inside Claude Code. Two j
 1. **Fraud detector.** Is every document what it claims to be? PDF metadata forensics (what software made it, was it modified after the pay date, hidden edit markers), payslip arithmetic that must reconcile to the cent, YTD progression across payslips, ABN check digits, bank-statement balance continuity, salary credits tied back to payslips, name and DOB consistency across every document, and visual tells (fonts, alignment, spelling) called out page by page.
 2. **Doc validator.** Does the file meet the Loan Market minimum supporting documents checklist (v4)? Every item checked as present, in date and showing the right data, with the exact freshness windows (payslips under 60 days, statements 60 to 90 by use, credit reports under 45, the 6-month backstop) computed by code, not judgement.
 
+Every bank statement gets three questions as a minimum: are the salary credits real (staging tells: wrong payer, round amounts, wrong cadence, deposit-then-sweep), is there gambling, and is money going out to liabilities nobody disclosed.
+
+**Scope note:** client-executed compliance documents (Privacy Consent, Game Plan, Quote) are signed and stored in your CRM, outside the client's document folder, so the audit deliberately does not check for them.
+
 The output is one self-contained HTML report per audit, branded for your office: checklist status, the outstanding documents to request, a per-document authenticity card, policy considerations (short YTD, new job, alt-doc ABN age), and a consolidated action list for the credit officer. The goal: you never need to open a file to know the file is right.
 
 ## Install

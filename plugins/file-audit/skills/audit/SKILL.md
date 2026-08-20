@@ -100,6 +100,7 @@ Always `confirmed: false` unless the broker stated the deal type - the report he
 Build `checklist_items[]` from `data/lm-checklist.json` for every applicable category: `requirement` = the item label verbatim, `need` from `logic` (`one-of` → 1, `count-2` → 2, `all` → per item), `rule_text` from `data/checklist_rules.json`. Stamp each document's `max_age_days` from `doc_currency` (the builder applies `category_overrides` per item automatically - the same bank statement can be current as salary evidence and stale for living expenses).
 
 Baked-in judgement calls:
+- **Compliance execution documents are out of scope.** Client-executed Privacy Consent, Game Plan and Quote are signed and stored in the CRM, outside the client's document folder - the checklist data deliberately omits them. Never audit them, never list them as missing, and never re-add them from general knowledge. If one happens to be in the folder, it appears in the document inventory like any other file, with no checklist item.
 - **2 valid IDs of {passport, licence, Medicare} satisfy identification** - never request a third once two are valid. But at least one held ID must show the current residential address; Medicare and passports never do, so cover the gap with an action, not a "missing".
 - An ATO income statement marked **"not tax ready"** is never final-year evidence: set `is_latest_fy: null` so it lands as "check", and say why in the action.
 - Payslip recency (<60 days) and **2+ pay cycles in YTD** are separate findings - a fresh payslip with 3 weeks of YTD passes recency and still raises the policy flag.
@@ -107,7 +108,8 @@ Baked-in judgement calls:
 
 ## Step 8 — Fraud, conduct and policy passes
 
-- **Authenticity** (`fraud-checks.md`): arithmetic reconciliation (payslip internals, YTD progression, ABN checksum via `pdf_forensics.py --abn`, statement balance continuity), cross-document ties (net pay vs salary credits, employer and ABN everywhere, name and DOB consistency), forensic signal weighting, payslip fraud score, per-document `authenticity` block with verdict `clean | review | fail`.
+- **Authenticity** (`fraud-checks.md`): arithmetic reconciliation (payslip internals, YTD progression, ABN checksum via `pdf_forensics.py --abn`, statement balance continuity), cross-document ties (net pay vs salary credits, salary staging, employer and ABN everywhere, name and DOB consistency), forensic signal weighting, payslip fraud score, per-document `authenticity` block with verdict `clean | review | fail`.
+- **Bank statements always get the three-question scan** (full mode): are the salary credits real (staging tells), is there gambling, and is money going out to liabilities nobody disclosed. These three run on every statement page, every time.
 - **Conduct** (`red-flags.md`): gambling, BNPL vs disclosed, dishonours, undisclosed regular repayments, large unexplained deposits, liability repayment sanity. Transaction-level scans are skipped in quick mode.
 - **Policy** (`policy-constraints.md`): short YTD, new employment, casual and variable income history, alt-doc ABN and GST age, ATO debt, HECS, visa conditions.
 

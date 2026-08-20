@@ -183,8 +183,8 @@
   // ---------- authenticity roll-up ----------
   const AUTH_CHECKS = new Set(["pdf_tamper","doc_altered","template_generator","payslip_arithmetic",
     "ytd_progression","abn_invalid","paygw_implausible","super_mismatch","balance_continuity",
-    "salary_credit_mismatch","employer_mismatch","name_mismatch","dob_mismatch","wrong_person_doc",
-    "visual_inconsistency","spelling_grammar","metadata_conflict"]);
+    "salary_credit_mismatch","salary_staging","employer_mismatch","name_mismatch","dob_mismatch",
+    "wrong_person_doc","visual_inconsistency","spelling_grammar","metadata_conflict"]);
   const authFlags = (F.red_flags||[]).filter(f => AUTH_CHECKS.has(f.check));
   const conductFlags = (F.red_flags||[]).filter(f => !AUTH_CHECKS.has(f.check));
   function fileVerdict(){

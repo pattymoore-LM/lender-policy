@@ -47,6 +47,13 @@ round-number net (+2) · no employer ABN (+2) · no YTD figures (+2) · generic 
 ## 4. Cross-document ties
 
 - **`salary_credit_mismatch` (high):** each payslip's net pay must appear as bank credits of matching amount and cadence. Payslips on file with NO matching salary credits anywhere is one of the strongest fraud tells there is.
+- **`salary_staging` (high):** credits dressed up as salary. The question is not "is there a credit labelled SALARY" but "does this credit behave like an employer paying wages". Tells, any one worth a flag and two or more near-conclusive:
+  - the payer in the description is not the stated employer - a personal name, "transfer", an unrelated entity, or the client's own linked account
+  - round-dollar "salary" (real net pay is almost never round), or the amount matches the payslip GROSS instead of the net
+  - cadence that does not match the payslip frequency - ad hoc dates, doubled-up credits, or credits that only began just before the application with no history behind them
+  - deposit-then-sweep: the "salary" lands and most of it transfers straight back out within days, often to the same counterparty (money being cycled to stage the next credit)
+  - a matching outbound transfer from another visible account shortly before each "salary" credit
+  When staging tells fire, cross-check hard against the payslip (employer name, ABN, net amount, pay dates) and recommend employer verification through an independently sourced channel.
 - **`employer_mismatch` (medium):** employer name and ABN consistent across payslips, employment letters and the statement credit descriptions (banks truncate - match sensibly).
 - **`name_mismatch` / `dob_mismatch` (high):** name and DOB consistent across every document, fuzzy-matched with the Step 5 gate. Spelling drift between the contract, the IDs and the payslips gets called out.
 - **NOA vs payslips (medium):** taxable income on the NOA consistent with that year's YTD evidence for the same person.

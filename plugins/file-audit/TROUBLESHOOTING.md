@@ -36,6 +36,8 @@ Every known failure, with the fix. If you're stuck, run `/audit doctor` and scre
 
 **Everything is flagged stale on the demo.** Expected eventually - the demo documents carry fixed dates and age like real ones. The demo's job is proving the pipeline runs and the doctored payslip gets caught.
 
+**Why doesn't it check the Privacy Consent, Game Plan or Quote?** Deliberate. Those are executed and stored in your CRM, outside the client's document folder, so a folder audit calling them "missing" would just be noise. The audit covers what lives in the folder.
+
 **A legitimate document got a tamper signal.** That's what "investigation lead, not proof" means: scanners, email gateways and browser saves re-save PDFs legitimately, and clients photograph IDs into Word. The report weighs signals by document type and says why; if a clean pattern keeps flagging, report it so the weighting table learns.
 
 **The audit takes a while on big files.** It reads every page deliberately. Use `/audit <client> quick` for a fast completeness pass; keep the full run for pre-submission.

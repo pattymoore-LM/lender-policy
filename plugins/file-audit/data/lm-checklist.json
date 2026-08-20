@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "source": "LM Checklist (Minimum Requirements) v4, 4 October 2024",
-  "_comment": "LM doc-pack minimum requirements per NCCP / Best Interests Duty. Each category has items that must be satisfied. 'matches' arrays reference doc-type keys from doc-type-taxonomy.json; if ANY doc in the batch matches, the item is ticked. 'logic' = 'one-of' (at least one match satisfies) | 'all' (every match required) | 'count-N' (need N+ matching docs).",
+  "_comment": "LM doc-pack minimum requirements per NCCP / Best Interests Duty. Each category has items that must be satisfied. 'matches' arrays reference doc-type keys from doc-type-taxonomy.json; if ANY doc in the batch matches, the item is ticked. 'logic' = 'one-of' (at least one match satisfies) | 'all' (every match required) | 'count-N' (need N+ matching docs). SCOPE (v1.1.0, 20/08/2026): the LM source's 'Compliance documents' category (client-executed Privacy Consent, Game Plan, Quote) is deliberately absent here. Those are executed and stored in the CRM, outside the client's document folder, so this document audit never lists them and never calls them missing. Item wording for every remaining category stays verbatim from the LM source.",
   "categories": {
     "client_identification": {
       "label": "Client identification",
@@ -23,15 +23,6 @@
         "If original ID not sighted, must be certified by JP or Australia Post (in person or live video).",
         "Smart Data Process IDs are treated as certified.",
         "Lender's own ID policy may impose stricter requirements."
-      ]
-    },
-    "compliance_documents": {
-      "label": "Compliance documents",
-      "always_required": true,
-      "items": [
-        { "label": "Client-executed Privacy Consent (one touch or standalone)", "logic": "one-of", "matches": ["privacy_consent"] },
-        { "label": "Client-executed Game Plan", "logic": "one-of", "matches": ["game_plan"] },
-        { "label": "Client-executed Quote (if a fee is charged)", "logic": "one-of", "optional": true, "matches": ["client_quote"] }
       ]
     },
     "payg_income": {

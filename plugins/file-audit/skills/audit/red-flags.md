@@ -2,6 +2,8 @@
 
 Transaction-level scans across every bank, card and loan statement page (skipped in quick mode, and the report banner says so). Each finding: `check` key, severity, evidence quoting date + merchant/description + amount + page, and a credit-officer recommendation. Evidence never includes a TFN or CRN.
 
+Every bank statement gets three questions as a minimum: **are the salary credits real** (staging tells live in `fraud-checks.md` §4, `salary_staging`), **is there gambling**, and **is money going out to liabilities nobody disclosed**. The rest of this catalogue builds on those three.
+
 ## `gambling` (medium; high when heavy)
 
 Debits to betting and gaming merchants: Sportsbet, Ladbrokes, TAB, bet365, PointsBet, Betfair, Neds, Unibet, BlueBet, Dabble, TABtouch, keno, casino, "gaming", lotteries when frequent. Report frequency, total for the period and the trend - one lottery ticket is noise, weekly betting is a finding. Recommendation: context from the client; lenders vary widely on tolerance.
