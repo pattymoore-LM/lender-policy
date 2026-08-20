@@ -25,9 +25,11 @@ Read-only compliance audit of one client's document folder. Output: a self-conta
 |---|---|
 | `/audit <client>` | Full audit: forensics + every-page read + checklist + red flags + policy + report |
 | `/audit <client> quick` | Checklist and freshness only. Skips transaction-level scans and deep forensics. The report banner states the reduced scope. |
-| `/audit setup` | First-run wizard (see `setup.md`). Re-run any time to change folders or branding. |
-| `/audit demo` | Full pipeline on the bundled synthetic client at `${CLAUDE_PLUGIN_ROOT}/example/demo-client/`. Proves the install end to end - it must catch the planted doctored payslip. |
-| `/audit doctor` | Diagnostics: config present, paths resolve, data files readable, Python probe, output dir writable, sample report builds. Short output the broker can screenshot for support. |
+| `/audit-setup` | First-run wizard (see `setup.md`). Re-run any time to change folders or branding. |
+| `/audit-demo` | Full pipeline on the bundled synthetic client at `${CLAUDE_PLUGIN_ROOT}/example/demo-client/`. Proves the install end to end - it must catch the planted doctored payslip. |
+| `/audit-doctor` | Diagnostics: config present, paths resolve, data files readable, Python probe, output dir writable, sample report builds. Short output the broker can screenshot for support. |
+
+The setup, demo and doctor modes are one-word commands (own skills in this plugin) so they autocomplete and nothing in the instructions carries a space. `/audit setup`, `/audit demo` and `/audit doctor` typed with a space reach the same modes - treat the second word as the mode selector, never as a client name.
 
 ## Step 0 — Config
 

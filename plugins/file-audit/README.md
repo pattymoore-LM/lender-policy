@@ -20,14 +20,18 @@ Inside Claude Code:
 /plugin install file-audit@broker-tools
 ```
 
+**Then restart Claude Code.** Plugins load on start; until you restart, `/audit` says "Unknown command".
+
 Then, in order:
 
 ```
-/audit doctor     confirms the install on your machine
-/audit demo       runs a full audit on a bundled synthetic client (it must catch the planted doctored payslip)
-/audit setup      points the tool at your clients folder and sets your office name
-/audit <client>   your first real audit
+/audit-doctor
+/audit-demo
+/audit-setup
+/audit <client surname>
 ```
+
+`/audit-doctor` confirms the install on your machine. `/audit-demo` runs a full audit on a bundled synthetic client and must catch the planted doctored payslip. `/audit-setup` points the tool at your clients folder and sets your office name. Then you're auditing.
 
 ## What it needs
 

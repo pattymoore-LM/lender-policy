@@ -6,7 +6,7 @@ Every known failure, with the fix. If you're stuck, run `/audit doctor` and scre
 
 **`/plugin marketplace add` says not found.** The address is exactly `pattymoore-LM/lender-policy` (the repo hosts the whole broker-tools marketplace, the name is historical). You need internet access; no GitHub account is required.
 
-**Installed but `/audit` does nothing.** Restart Claude Code - plugins load on start. If it still misses, `/plugin` should list `file-audit@broker-tools` as installed.
+**"Unknown command: /audit" right after installing.** Restart Claude Code - plugins load on start, so a session that was already open when you installed cannot see the new commands. After restarting, `/audit`, `/audit-doctor`, `/audit-demo` and `/audit-setup` all appear. If they still miss, `/plugin` should list `file-audit@broker-tools` as installed.
 
 **`/audit` runs something else on your machine.** Another tool of yours may own the word. Ask Claude to "run the file-audit plugin's audit skill" - and tell us, so we know the name clashes in the wild.
 
