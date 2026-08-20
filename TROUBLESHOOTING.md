@@ -84,6 +84,21 @@ it produced a file. Re-run step 2 and watch the console output this time.
 
 ## Asking questions (step 4)
 
+### "I cannot use your VS Code workspace" / "I cannot access that folder"
+
+You're in the wrong Copilot. There are two.
+
+| | |
+|---|---|
+| **GitHub Copilot** | A VS Code extension. Reads your open folder. **This is the one.** Free tier available — Extensions panel in VS Code, search "GitHub Copilot", install, sign in with a GitHub account. |
+| **Microsoft 365 Copilot** | `m365.cloud.microsoft` — the Word/Excel/Teams one. Runs on Microsoft's servers, cannot see your machine. It is telling you the truth. |
+
+Same name, same company, completely different tools.
+
+You don't need either, though. Open the folder in VS Code and press `Cmd+Shift+F`,
+then search a heading like `## Casual Income`. Every lender's position, one list.
+See "no AI at all" in [PORTABLE.md](PORTABLE.md).
+
 ### Copilot ignores the instructions
 
 Three things to check, in order:

@@ -70,9 +70,26 @@ Python 3 is already on every Mac. On Windows install it from python.org and use
 
 ## Then use it
 
-### With no AI at all
+### With no AI at all — start here
 
-The files are plain markdown with identical `## Topic` headings, so a single search across the folder is a cross-lender comparison.
+**This works the moment step 3 finishes. Nothing to install, no subscription.** Try
+it before you go and set up an AI tool; for a lot of questions it is just as fast.
+
+Open the folder in VS Code (or any editor) and press `Cmd+Shift+F` — find across all
+files — then search a heading:
+
+```
+## Casual Income
+```
+
+Every lender's position on casual income, in one list. Try `## Overtime Income`,
+`## HECS / HELP Debt`, `## SMSF Maximum LVR`. The full list of headings is in
+`topics.md`.
+
+That is the whole trick: identical `## Topic` headings across every lender file, so
+a single search IS a cross-lender comparison.
+
+If you prefer the command line, same idea:
 
 ```bash
 cd ~/lender-policy/lenders
@@ -102,11 +119,25 @@ Or just open the folder in any editor — VS Code, Sublime, even TextEdit — an
 
 ### With GitHub Copilot, Cursor, or Codex
 
-Nothing more to install — step 1 above already put `AGENTS.md` in your folder, and
-that is the whole configuration.
+> ### ⚠️ There are two different products called Copilot
+>
+> **GitHub Copilot** — a VS Code extension. Reads the folder you have open. **This
+> is the one you want.** Free tier available; install it from the Extensions panel
+> inside VS Code and sign in with a GitHub account.
+>
+> **Microsoft 365 Copilot** (`m365.cloud.microsoft`) — the one in Word, Excel and
+> Teams. Runs on Microsoft's servers and cannot see your machine at all. If you ask
+> it about your folder it will correctly tell you it can't read it.
+>
+> Same name, same company, unrelated tools. If Copilot says *"I cannot use your VS
+> Code workspace"*, you are in the M365 one. Close it and install the extension
+> instead — or just use the search route above, which needs nothing.
+
+Nothing more to install for the instructions — step 1 above already put `AGENTS.md`
+in your folder, and that is the whole configuration.
 
 **Open the folder in VS Code** (File > Open Folder, pick `~/lender-policy`) and ask
-Copilot Chat a question. That's it.
+GitHub Copilot Chat a question. That's it.
 
 VS Code reads `AGENTS.md` from the root of any opened folder automatically. No git
 repository, no settings to change, no extension beyond Copilot itself.
