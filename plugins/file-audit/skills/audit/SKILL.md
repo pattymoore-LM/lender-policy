@@ -33,7 +33,7 @@ The setup, demo and doctor modes are one-word commands (own skills in this plugi
 
 ## Step 0 — Config
 
-Read `~/.claude/file-audit.config.json`. If missing, run the wizard in `setup.md` first. Shape:
+Read `~/.claude/file-audit.config.json`. If missing, run the wizard in `setup.md` first. **Exception: the demo and doctor modes run without config** (that is the point of the doctor-demo-setup install order); the demo falls back to office name "Loan Market" and output `~/Documents/LM File Audits/`. Shape:
 
 ```json
 { "schema_version": 1,

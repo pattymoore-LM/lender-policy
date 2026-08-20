@@ -16,7 +16,7 @@ Confirm the choice by listing the folder (read-only) and asking: "these look lik
 
 ## 2. Branding
 
-Ask for the office name exactly as it should appear on reports. Default: **Loan Market Ignite** (Enter accepts). This is the only branding input; the report handles the rest.
+Ask for the office name exactly as it should appear on reports. If the chosen Drive folder sits under a Shared Drive whose name reads like an office (for example "Loan Market Somewhere"), offer that as the default; otherwise default to plain **Loan Market**. Enter accepts the default. This is the only branding input; the report handles the rest.
 
 ## 3. Output folder
 

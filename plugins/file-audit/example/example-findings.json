@@ -4,7 +4,7 @@
   "generated_by": "file-audit 1.0.0 (example)",
   "client": "Citizen, Alex & Sam",
   "run_date": "2026-08-20",
-  "office": { "name": "Loan Market Ignite" },
+  "office": { "name": "Loan Market" },
   "freshness_backstop_days": 183,
   "applicants": [
     { "name": "Alex Citizen", "aliases": ["CITIZEN ALEX"], "dob": "1990-04-12", "dob_sources": ["d004", "d005"], "role": "borrower", "employment": "payg" },
