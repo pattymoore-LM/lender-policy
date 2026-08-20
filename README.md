@@ -24,12 +24,17 @@ Then `/policy build` for the first pull. Takes a few minutes.
 
 Stuck? **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** covers every failure anyone has hit so far.
 
-**On Copilot, Cursor or Codex instead?** Works too — drop [`portable/AGENTS.md`](portable/AGENTS.md)
-into your KB folder. All three read it. (ChatGPT users: Codex is included in your
-Plus plan.) See **[PORTABLE.md](PORTABLE.md)**.
+## Not on Claude Code?
 
-**No AI tool at all?** Also works. The output is searchable markdown and a bundled
-DevTools snippet does the pull. Same page.
+**Nothing to install.** Paste [one script](plugins/lender-policy/scripts/pull-and-build.js)
+into Chrome, it downloads your whole panel as a single file, drag that into a Claude
+or ChatGPT Project and ask away — on your laptop or your phone.
+
+No Terminal, no Python, no VS Code, no GitHub account. See **[PORTABLE.md](PORTABLE.md)**.
+
+*(Microsoft 365 Copilot can't do this — it cannot read your files, including from
+OneDrive. GitHub Copilot can, but only inside VS Code. The Project route is easier
+than both.)*
 
 ## What you need
 

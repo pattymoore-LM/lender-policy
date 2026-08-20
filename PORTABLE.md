@@ -1,183 +1,116 @@
 # Using this without Claude Code
 
-The system is three layers and only the last one is Claude-specific:
+**The easiest route needs no Terminal, no Python, no VS Code and nothing installed.**
+One paste into Chrome, one file downloads, drag it into a Claude or ChatGPT Project,
+ask it questions. That is the whole thing.
 
-1. **The pull** — reads your Quickli library through your own logged-in browser. A pasted JavaScript snippet does this. No AI tool involved.
-2. **The render** — turns that into one markdown file per lender. A Python script. No AI tool involved.
-3. **The query** — asking questions in plain English. This is the part Claude does.
+---
 
-Layers 1 and 2 work for anyone. What they produce is a folder of well-organised markdown, which is useful on its own and useful to any tool that can read local files.
+## The easy way (start here)
 
-## Build it with no AI tool at all
+### 1. Get the script
 
-Three copy-pastes, about fifteen minutes.
+Open [`pull-and-build.js`](plugins/lender-policy/scripts/pull-and-build.js) on
+GitHub, click the copy button at the top right of the code, and it's on your
+clipboard.
 
-**1. Get the files.** Open Terminal and paste this whole block:
+### 2. Run it in Chrome
+
+> **This happens in CHROME, not in Terminal.** Pasting it into Terminal leaves you
+> at a `quote>` prompt that never returns. `Ctrl+C` if that happens.
+
+- Log into Quickli in Chrome and open the Policy Library
+- Press `Cmd+Option+J` (Mac) or `Ctrl+Shift+J` (Windows). A panel opens **inside the
+  Chrome window** with a `>` prompt. That is the console.
+- Click into it, paste, press Enter
+- If Chrome refuses to paste, type `allow pasting`, Enter, then paste again
+
+It counts through your lenders and downloads one file: `lender-policy-YYYY-MM-DD.md`
+— your whole panel, about 4MB.
+
+### 3. Ask it questions
+
+**Claude:** claude.ai → Projects → new project → add the file to the project
+knowledge → ask away.
+
+**ChatGPT:** chatgpt.com → Projects → new project → upload the file → ask away.
+
+Either one works on your phone. Ask things like *"which lenders accept 100% of
+essential services overtime"* or *"compare SMSF max LVR across my panel"*.
+
+The file carries its own instructions at the top — quote policy word for word, say
+"no entry" rather than guessing, stamp answers with the snapshot date — so there is
+nothing to configure.
+
+### 4. Refresh monthly
+
+Re-run step 2 and replace the file in your project. Lender policy moves, and a stale
+answer is worse than none.
+
+---
+
+## The Terminal way
+
+Use this if you want the KB as separate files on disk — one per lender, greppable,
+and what the Claude Code plugin expects.
+
+**1. Get the files.** In Terminal:
 
 ```bash
 mkdir -p ~/lender-policy && cd ~/lender-policy && curl -sO https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/plugins/lender-policy/scripts/render.py -O https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/plugins/lender-policy/scripts/lender_names.json -O https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/plugins/lender-policy/scripts/pull-snapshot.js -O https://raw.githubusercontent.com/pattymoore-LM/lender-policy/main/portable/AGENTS.md
 ```
 
-That gets you `render.py`, its lender-name map, the browser snippet, and the
-instruction file that Copilot/Cursor/Codex read.
-
-**2. Pull your library.**
-
-> **This step happens in CHROME, not in Terminal.** Pasting the script into Terminal
-> is the single most common mistake — it leaves you at a `quote>` or `dquote>`
-> prompt that sits there forever. Press `Ctrl+C` if that happens to you.
-
-First, in Terminal, put the script on your clipboard:
+**2. Pull.** Put the script on your clipboard, then paste it into Chrome's console
+exactly as in step 2 above:
 
 ```bash
 pbcopy < ~/lender-policy/pull-snapshot.js
 ```
 
-Nothing visible happens. That is correct. (On Windows: `clip < %USERPROFILE%\lender-policy\pull-snapshot.js`)
+(Windows: `clip < %USERPROFILE%\lender-policy\pull-snapshot.js`)
 
-Now **switch to Chrome**:
+This one downloads a `.json`, not a `.md`.
 
-- Log into Quickli and open the Policy Library
-- Click any lender once, so the page loads some policy (helps, not essential)
-- Press `Cmd+Option+J` (Mac) or `Ctrl+Shift+J` (Windows). A panel opens inside the
-  **Chrome window** with a `>` prompt. That is the console.
-- Click into it, press `Cmd+V` (or `Ctrl+V`), press Enter
-- If Chrome refuses to paste, type `allow pasting`, press Enter, then paste again
-
-You'll see progress lines like `10/45 lenders`. When it finishes it downloads
-`quickli-policy-snapshot-YYYY-MM-DD.json`.
-
-**3. Build it.** Change the date to match your file:
+**3. Build.** Change the date to match your file:
 
 ```bash
 cd ~/lender-policy && python3 render.py ~/Downloads/quickli-policy-snapshot-2026-08-19.json --kb .
 ```
 
-You should see `Rendered N lenders, N policy blocks`. Your folder now looks like:
+You get `lenders/` with one file per lender, `INDEX.md` with the freshness table,
+and `topics.md` with the heading vocabulary.
 
-```
-~/lender-policy/
-  AGENTS.md          instructions for Copilot / Cursor / Codex
-  INDEX.md           freshness table
-  topics.md          the topic vocabulary
-  lenders/           one file per lender
-  render.py          re-run this each refresh
-  pull-snapshot.js   re-run this each refresh
-```
+Python 3 is on every Mac. On Windows install from python.org and use `python`.
 
-Python 3 is already on every Mac. On Windows install it from python.org and use
-`python` instead of `python3`.
+### Then search or ask
 
-## Then use it
+**Search, no AI:** open the folder in VS Code and press `Cmd+Shift+F`, then type a
+heading like `## Casual Income`. Every lender's position in one list. Or on the
+command line, `grep -A15 "^## Casual Income" lenders/*.md`.
 
-### With no AI at all — start here
+**Ask, with GitHub Copilot or Cursor:** step 1 already put `AGENTS.md` in the folder,
+which is the whole configuration. Open the folder in VS Code and ask Copilot Chat.
 
-**This works the moment step 3 finishes. Nothing to install, no subscription.** Try
-it before you go and set up an AI tool; for a lot of questions it is just as fast.
-
-Open the folder in VS Code (or any editor) and press `Cmd+Shift+F` — find across all
-files — then search a heading:
-
-```
-## Casual Income
-```
-
-Every lender's position on casual income, in one list. Try `## Overtime Income`,
-`## HECS / HELP Debt`, `## SMSF Maximum LVR`. The full list of headings is in
-`topics.md`.
-
-That is the whole trick: identical `## Topic` headings across every lender file, so
-a single search IS a cross-lender comparison.
-
-If you prefer the command line, same idea:
-
-```bash
-cd ~/lender-policy/lenders
-```
-
-Every lender's position on casual income:
-```bash
-grep -A15 "^## Casual Income" *.md
-```
-
-Which lenders say anything about essential services overtime:
-```bash
-grep -l "Essential Services Overtime" *.md
-```
-
-Find the right heading first if you're not sure what it's called:
-```bash
-grep -i "overtime" ../topics.md
-```
-
-One lender, one topic:
-```bash
-awk '/^## HECS/{f=1;next}/^## /{f=0}f' anz.md
-```
-
-Or just open the folder in any editor — VS Code, Sublime, even TextEdit — and use find-in-files. Less magic than asking a question in English, still a great deal faster than clicking through Quickli lender by lender.
-
-### With GitHub Copilot, Cursor, or Codex
-
-> ### ⚠️ There are two different products called Copilot
+> ### ⚠️ Two different products are called Copilot
 >
-> **GitHub Copilot** — a VS Code extension. Reads the folder you have open. **This
-> is the one you want.** Free tier available; install it from the Extensions panel
-> inside VS Code and sign in with a GitHub account.
+> **GitHub Copilot** — a VS Code extension, reads your open folder. Free tier
+> available from the Extensions panel inside VS Code.
 >
-> **Microsoft 365 Copilot** (`m365.cloud.microsoft`) — the one in Word, Excel and
-> Teams. Runs on Microsoft's servers and cannot see your machine at all. If you ask
-> it about your folder it will correctly tell you it can't read it.
+> **Microsoft 365 Copilot** (`m365.cloud.microsoft`) — the Word/Excel/Teams one.
+> **It cannot read your files at all, including from OneDrive or SharePoint**
+> (confirmed 20/08/2026). If it says *"I cannot use your VS Code workspace"*, that
+> is this one.
 >
-> Same name, same company, unrelated tools. If Copilot says *"I cannot use your VS
-> Code workspace"*, you are in the M365 one. Close it and install the extension
-> instead — or just use the search route above, which needs nothing.
+> Fair warning: GitHub Copilot works, but it only works inside VS Code, which is a
+> developer tool. If that sounds like a hassle for looking up lender policy, it is —
+> use the Project route at the top of this page instead.
 
-Nothing more to install for the instructions — step 1 above already put `AGENTS.md`
-in your folder, and that is the whole configuration.
+**On ChatGPT?** Either the Project route above, or **Codex** (included in a ChatGPT
+Plus/Pro/Team plan), which reads `AGENTS.md` from the directory you run it in.
 
-**Open the folder in VS Code** (File > Open Folder, pick `~/lender-policy`) and ask
-GitHub Copilot Chat a question. That's it.
-
-VS Code reads `AGENTS.md` from the root of any opened folder automatically. No git
-repository, no settings to change, no extension beyond Copilot itself.
-
-**Cursor** reads `AGENTS.md` too — same file, nothing extra.
-
-**On ChatGPT?** Use **Codex**, which is included in a ChatGPT Plus, Pro or Team
-plan. Codex CLI reads `AGENTS.md` from the project root or the directory you run it
-in, so `cd ~/lender-policy` and start Codex there. Same file again.
-
-One instruction file covers all three.
-
-If you'd rather use Copilot's own convention, the repo also ships
-[`portable/.github/copilot-instructions.md`](portable/.github/copilot-instructions.md)
-with identical content — put it at `~/lender-policy/.github/copilot-instructions.md`
-instead. Either works; you don't need both.
-
-**What the instruction file does:** it teaches the tool the same discipline the
-Claude Code skill uses — search by `## Topic` heading rather than loading whole
-files, quote policy lines verbatim, say "no entry" instead of guessing, respect
-lender-manual-beats-Quickli precedence, stamp every answer with the snapshot date,
-and never attempt servicing maths.
-
-One difference from Claude Code: none of these drive your browser, so the monthly
-refresh is you re-running the DevTools snippet by hand rather than asking for it.
-Everything after the pull is identical.
-
-### Not with a web chatbot
-
-ChatGPT, Gemini, Claude.ai and the rest can't read files on your machine, so using them would mean uploading your policy files. Don't. That's Quickli's licensed content going to a third party, and it's the one line this whole design is built to stay on the right side of.
-
-If you want plain-English questions, use a tool that reads the files locally.
-
-## Keeping it current
-
-Re-run the snippet monthly and render it again. Lender policy moves, and a stale answer is worse than no answer.
-
-The plugin version does this incrementally — it checks which lenders actually changed and re-pulls only those. Doing it by hand, you just re-pull everything, which takes a couple of minutes and is fine.
+---
 
 ## When it doesn't work
 
-See **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**. Every failure below has happened to
-a real person, including both of the ones in the browser step.
+See **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**. Every failure listed there has
+happened to a real person.

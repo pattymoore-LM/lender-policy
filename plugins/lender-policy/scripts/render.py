@@ -119,9 +119,28 @@ def au_date(iso):
         return iso
 
 
+def demote_headings(text):
+    """Push any markdown heading inside Quickli's own content below our own.
+
+    We use `#` for the lender and `##` for the topic. Quickli's policy text
+    carries its own headings — "Acceptable Evidence", "Calculation:" — and a
+    `##` in there is indistinguishable from a topic heading. That silently
+    truncates every extraction: an awk that stops at the next `^## ` stops at
+    "Acceptable Evidence" and drops the rest of the lender's real policy.
+    Found 20/08/2026 on Bank Australia's Family Employment section.
+
+    Demoting by two keeps the rendering identical to a reader while making the
+    structure unambiguous to anything scanning by heading level.
+    """
+    def bump(m):
+        return "#" * min(len(m.group(1)) + 2, 6) + m.group(2)
+    return re.sub(r"^(#{1,6})(\s)", bump, text, flags=re.M)
+
+
 def clean_content(text):
     # Cosmetic only: collapse Quickli's &nbsp; spacer lines; never touch policy wording.
     text = re.sub(r"^\s*&nbsp;\s*$", "", text, flags=re.M)
+    text = demote_headings(text)
     return re.sub(r"\n{3,}", "\n\n", text).strip()
 
 

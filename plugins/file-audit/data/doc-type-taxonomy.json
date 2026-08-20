@@ -1,0 +1,1229 @@
+{
+  "schemaVersion": 3,
+  "lastUpdated": "2026-06-29",
+  "_comment": "LM Clayfield doc-type taxonomy. Naming convention dictated by Patrick (initial 2026-05-11, bank-statement spec finalised 2026-05-20). All bank-statement filename dates are AU format DD.MM.YY (dots, matches Patrick's historical Drive convention e.g. '20.01.26'). Slashes are forbidden in filenames. Year is never first. Bank/lender tokens use the short code (e.g. 'CBA') not the canonical name (e.g. 'CommBank').",
+  "_naming_tokens": {
+    "{firstName}": "First given name only",
+    "{lender}": "Canonical lender name (normalised via lender-normalization.json) — used in non-statement templates",
+    "{lenderShort}": "Short lender code (e.g. 'CBA', 'ANZ', 'NAB') — used in all liability statement templates",
+    "{bank}": "Canonical bank name (same as {lender}) — used in non-statement templates",
+    "{bankShort}": "Short bank code (e.g. 'CBA', 'ANZ', 'NAB') — used in all asset statement templates",
+    "{year}": "4-digit year (FY-end year for tax docs)",
+    "{employer}": "Employer name",
+    "{quarter}": "BAS quarter as Q1/Q2/Q3/Q4",
+    "{companyName}": "Company or trust legal name",
+    "{streetName}": "Property street name only (just the street, e.g. 'Mulherin Street')",
+    "{address}": "Full property address",
+    "{accountType}": "ONE of two values for consumer asset accounts (Patrick spec 2026-05-20): 'Salary Credit' if regular salary deposits visible, 'Savings' otherwise. Bank product names (Smart Access / NetBank Saver / Everyday / Offset Savings) are explicitly ignored — collapse to the semantic label. Not used for liabilities (sub-type encodes Credit Card / Home Loan) or business accounts (template hardcodes 'Business Account').",
+    "{last4}": "Last 4 digits of account number",
+    "{facilityType}": "Credit Card / Personal Loan / Home Loan etc.",
+    "{provider}": "BNPL or novated lease provider name",
+    "{security}": "Property identifier for settlement docs",
+    "{periodEndShort}": "DD.MM short date for payslips (e.g. '31.03')",
+    "{endDate}": "DD.MM.YY end-of-period date for bank/loan statements (dots, never slashes or dashes)",
+    "{name}": "Person name"
+  },
+  "categories": {
+    "application": {
+      "label": "Application",
+      "v2_0_priority": true,
+      "types": {
+        "lender_application_form": {
+          "label": "Lender Application Form",
+          "naming_template": "Application_{lender} Application Form",
+          "classifier_signals": [
+            "loan application form",
+            "application reference",
+            "applicant details",
+            "lender header"
+          ],
+          "required_fields": [
+            "lender",
+            "applicantName"
+          ],
+          "v2_0": true
+        },
+        "lender_pricing_approval": {
+          "label": "Lender Pricing Approval",
+          "naming_template": "Application_{lender} Pricing Approval",
+          "classifier_signals": [
+            "pricing approval",
+            "rate approval",
+            "discount approved",
+            "lender header"
+          ],
+          "required_fields": [
+            "lender",
+            "approvedRate",
+            "approvalDate"
+          ],
+          "v2_0": false
+        },
+        "preapproval_letter": {
+          "label": "Pre-Approval Letter",
+          "naming_template": "Application_{lender} Pre-Approval Letter",
+          "classifier_signals": [
+            "pre-approval",
+            "conditional approval",
+            "indicative approval"
+          ],
+          "required_fields": [
+            "lender",
+            "applicantName",
+            "preApprovedAmount",
+            "validUntil"
+          ],
+          "v2_0": false
+        },
+        "formal_approval_letter": {
+          "label": "Formal Approval Letter",
+          "naming_template": "Application_{lender} Formal Approval Letter",
+          "classifier_signals": [
+            "formal approval",
+            "unconditional approval",
+            "loan approval"
+          ],
+          "required_fields": [
+            "lender",
+            "applicantName",
+            "approvedAmount",
+            "approvalDate"
+          ],
+          "v2_0": false
+        },
+        "broker_notes": {
+          "label": "Broker Notes",
+          "naming_template": "Application_Broker Notes",
+          "classifier_signals": [
+            "broker notes",
+            "preliminary assessment",
+            "notes to credit"
+          ],
+          "required_fields": [
+            "brokerName",
+            "applicantName"
+          ],
+          "v2_0": false
+        },
+        "serviceability_calculator": {
+          "label": "Lender Serviceability Calculator",
+          "naming_template": "Application_{lender} Serviceability Calculator",
+          "classifier_signals": [
+            "serviceability calculator",
+            "servicing calc",
+            "net surplus",
+            "income / expenses worksheet"
+          ],
+          "required_fields": [
+            "lender",
+            "netSurplus"
+          ],
+          "v2_0": false
+        },
+        "home_guarantee_scheme_declaration": {
+          "label": "Home Buyer Declaration (Govt 5% Deposit Scheme / Home Guarantee)",
+          "naming_template": "Application_Home Buyer Declaration 5pct Deposit Scheme_{firstName}",
+          "classifier_signals": [
+            "Home Buyer Declaration",
+            "5% Deposit Scheme",
+            "Home Guarantee",
+            "Housing Australia",
+            "Guarantee you're applying for"
+          ],
+          "required_fields": [
+            "firstName"
+          ],
+          "v2_0": false
+        },
+        "first_home_super_saver_determination": {
+          "label": "First Home Super Saver (FHSS) Determination",
+          "naming_template": "Application_First Home Super Saver Determination_{firstName}",
+          "classifier_signals": [
+            "First home super saver",
+            "FHSS scheme",
+            "Determination",
+            "ATO receipt ID",
+            "Concessional contributions",
+            "maximum FHSS release"
+          ],
+          "required_fields": [
+            "firstName"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "credit_reports": {
+      "label": "Credit Reports",
+      "types": {
+        "equifax_credit_report": {
+          "label": "Equifax Credit Report",
+          "naming_template": "Credit Report_{firstName}",
+          "classifier_signals": [
+            "Equifax",
+            "credit score",
+            "credit report",
+            "credit enquiries history"
+          ],
+          "required_fields": [
+            "firstName",
+            "score"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "id": {
+      "label": "Identity",
+      "v2_0_priority": true,
+      "types": {
+        "drivers_licence": {
+          "label": "Drivers Licence (any state)",
+          "naming_template": "ID_Drivers Licence_{idName}",
+          "classifier_signals": [
+            "Driver Licence",
+            "Drivers Licence",
+            "QUEENSLAND / NSW / VICTORIA / SA / WA / TAS / NT / ACT",
+            "card with photo",
+            "licence number"
+          ],
+          "required_fields": [
+            "firstName",
+            "surname",
+            "dob",
+            "licenceNumber",
+            "expiry",
+            "state"
+          ],
+          "optional_fields": [
+            "cardNumber",
+            "address"
+          ],
+          "v2_0": true,
+          "_critical": "Detect state from card text. QLD shows SURNAME first; all others show given names first. Reorder for output."
+        },
+        "passport": {
+          "label": "Passport (AU/NZ/Other)",
+          "naming_template": "ID_Passport_{idName}",
+          "classifier_signals": [
+            "MRZ at bottom (P<AUS/P<NZL/etc)",
+            "Family name / Nom labels",
+            "Document No.",
+            "passport booklet biodata page"
+          ],
+          "required_fields": [
+            "firstName",
+            "surname",
+            "dob",
+            "passportNumber",
+            "expiry"
+          ],
+          "optional_fields": [
+            "country",
+            "mrzLine1",
+            "mrzLine2"
+          ],
+          "v2_0": true
+        },
+        "medicare_card": {
+          "label": "Medicare Card",
+          "naming_template": "ID_Medicare Card_Family",
+          "_naming_note": "Default _Family = one shared household card. FILING-LAYER DISAMBIGUATION (added 2026-06-29): when two DISTINCT Medicare cards (different card numbers) belong to one client/couple, name each by its primary listed member — 'ID_Medicare Card_{FirstName Surname}' — so they do not collide on _Family. The single-doc web app keeps _Family; the validation-intake agent applies the per-member name when filing multiple cards into one folder.",
+          "classifier_signals": [
+            "medicare lowercase logo",
+            "10-digit card number above names",
+            "IRN digit left of each name",
+            "VALID TO MM/YYYY",
+            "green/blue/yellow card"
+          ],
+          "required_fields": [
+            "firstName",
+            "cardNumber",
+            "expiry"
+          ],
+          "v2_0": true
+        },
+        "marriage_certificate": {
+          "label": "Marriage Certificate",
+          "naming_template": "ID_Marriage Certificate_{idName}",
+          "classifier_signals": [
+            "Marriage Certificate",
+            "Registrar of Births Deaths Marriages",
+            "place of marriage",
+            "celebrant"
+          ],
+          "required_fields": [
+            "firstName",
+            "surname",
+            "spouseName",
+            "marriageDate"
+          ],
+          "v2_0": false
+        },
+        "birth_certificate": {
+          "label": "Birth Certificate",
+          "naming_template": "ID_Birth Certificate_{idName}",
+          "classifier_signals": [
+            "Birth Certificate",
+            "Registrar of Births",
+            "date of birth",
+            "place of birth"
+          ],
+          "required_fields": [
+            "firstName",
+            "surname",
+            "dob",
+            "placeOfBirth"
+          ],
+          "v2_0": false
+        },
+        "id_verification": {
+          "label": "Electronic ID Verification Result",
+          "naming_template": "ID_Verification_{firstName}",
+          "classifier_signals": [
+            "Verification of Identity",
+            "ID verified",
+            "DVS",
+            "Document Verification Service",
+            "verification passed",
+            "identity check result",
+            "greenID"
+          ],
+          "required_fields": [
+            "firstName"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "income": {
+      "label": "Income",
+      "v2_0_priority": true,
+      "types": {
+        "payslip": {
+          "label": "Payslip",
+          "naming_template": "Income_Payslip_{firstName} {payPeriodEnd}",
+          "_naming_note": "Pay period end as DD-MM-YYYY (AU full-year format). Patrick called out year-missing 2026-05-11.",
+          "classifier_signals": [
+            "Pay slip",
+            "Pay Period",
+            "Gross / Net",
+            "employer ABN",
+            "tax withheld"
+          ],
+          "required_fields": [
+            "firstName",
+            "employerName",
+            "employerABN",
+            "payPeriodEnd",
+            "grossPay",
+            "netPay"
+          ],
+          "v2_0": true
+        },
+        "income_statement": {
+          "label": "Income Statement (formerly Payment Summary / Group Cert)",
+          "naming_template": "Income_Income Statement_{year}_{firstName} {employer}",
+          "classifier_signals": [
+            "Income Statement",
+            "Payment Summary",
+            "Group Certificate",
+            "Gross payments",
+            "Tax withheld total",
+            "FY end"
+          ],
+          "required_fields": [
+            "firstName",
+            "year",
+            "employer",
+            "grossPayments",
+            "taxWithheld"
+          ],
+          "v2_0": false
+        },
+        "personal_tax_return": {
+          "label": "Personal Tax Return",
+          "naming_template": "Income_Personal Tax Return_{year}_{firstName}",
+          "classifier_signals": [
+            "Tax Return",
+            "Individual Tax Return",
+            "ATO",
+            "Section A B C D Income"
+          ],
+          "required_fields": [
+            "firstName",
+            "year",
+            "taxableIncome"
+          ],
+          "v2_0": false
+        },
+        "notice_of_assessment": {
+          "label": "Notice of Assessment (NOA)",
+          "naming_template": "Income_NOA_{year}_{firstName}",
+          "classifier_signals": [
+            "Australian Taxation Office",
+            "Notice of Assessment",
+            "taxable income",
+            "ATO reference"
+          ],
+          "required_fields": [
+            "firstName",
+            "year",
+            "taxableIncome",
+            "atoReference"
+          ],
+          "v2_0": true
+        },
+        "company_trust_financials": {
+          "label": "Company / Trust Financials (P&L, Balance Sheet)",
+          "naming_template": "Income_{entityKind} Financials_{year}_{companyName}",
+          "classifier_signals": [
+            "Profit and Loss",
+            "Balance Sheet",
+            "Statement of Financial Position",
+            "company name + ACN",
+            "trust name"
+          ],
+          "required_fields": [
+            "year",
+            "companyName",
+            "totalRevenue",
+            "netProfit"
+          ],
+          "v2_0": false
+        },
+        "company_trust_tax_return": {
+          "label": "Company / Trust Tax Return",
+          "naming_template": "Income_{entityKind} Tax Return_{year}_{companyName}",
+          "classifier_signals": [
+            "Company Tax Return",
+            "Trust Tax Return",
+            "ATO Company / Trust",
+            "TFN of entity"
+          ],
+          "required_fields": [
+            "year",
+            "companyName",
+            "taxableIncome"
+          ],
+          "v2_0": false
+        },
+        "accountants_letter": {
+          "label": "Accountants Letter",
+          "naming_template": "Income_Accountants Letter_{companyName}",
+          "classifier_signals": [
+            "Accountant letterhead",
+            "to whom it may concern",
+            "client income confirmation"
+          ],
+          "required_fields": [
+            "companyName",
+            "accountantName",
+            "letterDate"
+          ],
+          "v2_0": false
+        },
+        "bas_statement": {
+          "label": "BAS — Business Activity Statement (quarterly)",
+          "naming_template": "Income_BAS Statement_{basPeriod}_{companyName}",
+          "_naming_note": "Quarter alone is ambiguous (Q1 of which year?). Includes 4-digit FY-end year for clarity.",
+          "classifier_signals": [
+            "Business Activity Statement",
+            "BAS",
+            "G1 Total sales",
+            "1A GST on sales",
+            "PAYG instalment",
+            "quarterly"
+          ],
+          "required_fields": [
+            "quarter",
+            "year",
+            "companyName",
+            "abn",
+            "quarterEnding",
+            "totalSales",
+            "netGstPayable"
+          ],
+          "v2_0": true
+        },
+        "centrelink_statement": {
+          "label": "Centrelink Statement",
+          "naming_template": "Income_Centrelink Statement",
+          "classifier_signals": [
+            "Centrelink",
+            "Services Australia",
+            "benefit type",
+            "payment summary"
+          ],
+          "required_fields": [
+            "recipientName",
+            "benefitType",
+            "payAmount"
+          ],
+          "v2_0": false
+        },
+        "child_support_statement": {
+          "label": "Child Support Statement",
+          "naming_template": "Income_Child Support Statement",
+          "classifier_signals": [
+            "Child Support",
+            "Services Australia child support",
+            "court order"
+          ],
+          "required_fields": [
+            "recipientName",
+            "amount",
+            "frequency"
+          ],
+          "v2_0": false
+        },
+        "rental_income_statement": {
+          "label": "Rental Income Statement",
+          "naming_template": "Income_Rental Income Statement_{streetName}",
+          "classifier_signals": [
+            "Rental Statement",
+            "Property Manager",
+            "rent received",
+            "property address"
+          ],
+          "required_fields": [
+            "streetName",
+            "propertyManager",
+            "monthlyRent"
+          ],
+          "v2_0": false
+        },
+        "rental_payment_advice": {
+          "label": "Rental Payment Advice / Remittance",
+          "naming_template": "Income_Rental Payment Advice_{streetName}_{paymentDate}",
+          "classifier_signals": [
+            "Vendor Payment Advice",
+            "Remittance Advice",
+            "Housing Authority",
+            "rent payment",
+            "payment date"
+          ],
+          "required_fields": [
+            "streetName",
+            "paymentDate"
+          ],
+          "v2_0": false
+        },
+        "rental_appraisal": {
+          "label": "Rental Appraisal",
+          "naming_template": "Income_Rental Appraisal_{streetName}",
+          "classifier_signals": [
+            "Rental Appraisal",
+            "estimated weekly rent",
+            "real estate agent letterhead"
+          ],
+          "required_fields": [
+            "streetName",
+            "agentName",
+            "estimatedRent"
+          ],
+          "v2_0": false
+        },
+        "employment_contract": {
+          "label": "Employment Contract",
+          "naming_template": "Income_Employment Contract_{firstName}",
+          "classifier_signals": [
+            "Employment Contract",
+            "Letter of Offer",
+            "position title",
+            "start date",
+            "salary"
+          ],
+          "required_fields": [
+            "firstName",
+            "employerName",
+            "position",
+            "startDate",
+            "salary"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "liabilities": {
+      "label": "Liabilities",
+      "v2_0_priority": true,
+      "types": {
+        "credit_card_statement": {
+          "label": "Credit Card Statement (formal)",
+          "naming_template": "Liabilities_{lenderShort} Credit Card {last4}_Formal Statement_{endDate}",
+          "classifier_signals": [
+            "Credit Card Statement",
+            "Visa / Mastercard branding",
+            "credit limit",
+            "minimum payment",
+            "card number masked"
+          ],
+          "required_fields": [
+            "lender",
+            "last4",
+            "endDate",
+            "currentBalance",
+            "creditLimit",
+            "minimumPayment"
+          ],
+          "v2_0": true
+        },
+        "credit_card_transactions": {
+          "label": "Credit Card Transactions",
+          "naming_template": "Liabilities_{lenderShort} Credit Card {last4}_Transactions_{endDate}",
+          "classifier_signals": [
+            "Transactions list",
+            "Credit Card",
+            "transaction date / merchant / amount"
+          ],
+          "required_fields": [
+            "lender",
+            "last4",
+            "endDate"
+          ],
+          "v2_0": false
+        },
+        "home_loan_transactions": {
+          "label": "Home Loan Transaction Listings",
+          "naming_template": "Liabilities_{lenderShort} Home Loan {last4}_Transactions_{endDate}",
+          "classifier_signals": [
+            "Home Loan",
+            "Mortgage Account",
+            "Transactions",
+            "interest charged"
+          ],
+          "required_fields": [
+            "lender",
+            "last4",
+            "endDate"
+          ],
+          "v2_0": false
+        },
+        "home_loan_formal_statement": {
+          "label": "Home Loan Formal Statement",
+          "naming_template": "Liabilities_{lenderShort} Home Loan {last4}_Formal Statement_{endDate}",
+          "classifier_signals": [
+            "Home Loan Statement",
+            "Mortgage Statement",
+            "loan balance",
+            "interest rate"
+          ],
+          "required_fields": [
+            "lender",
+            "last4",
+            "endDate",
+            "currentBalance",
+            "interestRate",
+            "monthlyPayment"
+          ],
+          "v2_0": false
+        },
+        "home_loan_details": {
+          "label": "Home Loan Details (summary screen / payout figure)",
+          "naming_template": "Liabilities_{lenderShort} Home Loan Details {last4}_{endDate}",
+          "classifier_signals": [
+            "Loan Details",
+            "Account Summary",
+            "Payout Figure",
+            "Discharge"
+          ],
+          "required_fields": [
+            "lender",
+            "last4",
+            "endDate",
+            "currentBalance"
+          ],
+          "v2_0": false
+        },
+        "personal_loan_statement": {
+          "label": "Personal Loan Statement",
+          "naming_template": "Liabilities_{lender} Personal Loan Statement",
+          "classifier_signals": [
+            "Personal Loan",
+            "unsecured loan",
+            "monthly repayment",
+            "balance owing"
+          ],
+          "required_fields": [
+            "lender",
+            "currentBalance",
+            "monthlyPayment"
+          ],
+          "v2_0": true
+        },
+        "car_loan_statement": {
+          "label": "Car Loan Statement",
+          "naming_template": "Liabilities_{lender} Car Loan Statement",
+          "classifier_signals": [
+            "Car Loan",
+            "Vehicle Finance",
+            "secured loan",
+            "vehicle make/model"
+          ],
+          "required_fields": [
+            "lender",
+            "currentBalance",
+            "monthlyPayment"
+          ],
+          "v2_0": false
+        },
+        "bnpl_statement": {
+          "label": "Buy Now Pay Later (Afterpay / Zip / Klarna)",
+          "naming_template": "Liabilities_{provider} {facilityType}",
+          "classifier_signals": [
+            "Afterpay",
+            "Zip",
+            "Klarna",
+            "PayPal Pay in 4",
+            "buy now pay later",
+            "instalment plan"
+          ],
+          "required_fields": [
+            "provider",
+            "currentBalance",
+            "facilityType"
+          ],
+          "v2_0": false
+        },
+        "closure_letter": {
+          "label": "Closure Letter (loan closed / facility cancelled)",
+          "naming_template": "Liabilities_{lender} {facilityType} Closure Letter",
+          "classifier_signals": [
+            "Closure Letter",
+            "account closed",
+            "facility cancelled",
+            "zero balance"
+          ],
+          "required_fields": [
+            "lender",
+            "facilityType"
+          ],
+          "v2_0": false
+        },
+        "loan_contract": {
+          "label": "Loan / Credit Contract (signed or offered)",
+          "naming_template": "Liabilities_{lender} {facilityType} Contract_{contractDate}",
+          "classifier_signals": [
+            "Loan Contract",
+            "Credit Contract",
+            "Loan Agreement",
+            "Secured Personal Loan Contract",
+            "Unsecured Personal Loan Contract",
+            "Amount of credit",
+            "Financial Table",
+            "annual percentage rate",
+            "Terms & Conditions",
+            "By signing this document"
+          ],
+          "required_fields": [
+            "lender",
+            "facilityType",
+            "contractDate"
+          ],
+          "v2_0": false
+        },
+        "hecs_help_statement": {
+          "label": "HECS / HELP / Trade Support Statement",
+          "naming_template": "Liabilities_{facilityType} Statement_{firstName}",
+          "_naming_note": "firstName suffix added 2026-06-29 so two applicants who each hold a HELP/HECS statement (e.g. a couple) do not collide. Single-holder docs also carry the suffix for consistency.",
+          "classifier_signals": [
+            "HECS",
+            "HELP",
+            "Trade Support Loan",
+            "study assist loan",
+            "ATO HECS-HELP"
+          ],
+          "required_fields": [
+            "facilityType",
+            "firstName",
+            "currentBalance"
+          ],
+          "v2_0": false
+        },
+        "payout_letter": {
+          "label": "Loan / BNPL Payout Figure Letter",
+          "naming_template": "Liabilities_{lender} {facilityType} Payout Letter_{letterDate}",
+          "classifier_signals": [
+            "Payout Letter",
+            "amount required to finalise your account",
+            "this figure is valid until",
+            "payout figure",
+            "settlement figure",
+            "final payout amount",
+            "remove from the Personal Property Securities Register"
+          ],
+          "required_fields": [
+            "lender",
+            "facilityType",
+            "letterDate"
+          ],
+          "v2_0": false
+        },
+        "novated_lease_statement": {
+          "label": "Novated Lease Statement",
+          "naming_template": "Liabilities_{provider} Novated Lease Statement",
+          "classifier_signals": [
+            "Novated Lease",
+            "salary packaging",
+            "lease provider",
+            "fortnightly deduction"
+          ],
+          "required_fields": [
+            "provider",
+            "monthlyPayment"
+          ],
+          "v2_0": false
+        },
+        "ato_portal": {
+          "label": "ATO Tax Portal (debt / running balance)",
+          "naming_template": "Liabilities_ATO_Portal_{name}",
+          "classifier_signals": [
+            "ATO online services",
+            "Running balance account",
+            "Tax debt",
+            "Integrated Client Account"
+          ],
+          "required_fields": [
+            "name",
+            "currentBalance"
+          ],
+          "v2_0": false
+        },
+        "ato_payment_plan": {
+          "label": "ATO Tax Payment Plan (myGov instalment arrangement)",
+          "naming_template": "Liabilities_ATO Tax Payment Plan_{firstName}",
+          "classifier_signals": [
+            "Payment plans",
+            "Instalment schedule",
+            "Direct debit",
+            "estimated general interest charge",
+            "Income tax 001",
+            "Plan total"
+          ],
+          "required_fields": [
+            "firstName",
+            "currentBalance"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "statements": {
+      "label": "Bank Statements",
+      "v2_0_priority": true,
+      "types": {
+        "bank_account_transactions": {
+          "label": "Bank Account Transaction Listings",
+          "naming_template": "Statements_{bankShort} {accountType}_{last4}_Transactions_{endDate}",
+          "classifier_signals": [
+            "Transaction Listing",
+            "Account Activity",
+            "Bank header",
+            "transaction list with dates"
+          ],
+          "required_fields": [
+            "bank",
+            "accountType",
+            "last4",
+            "endDate",
+            "accountHolder"
+          ],
+          "v2_0": true
+        },
+        "bank_account_formal_statement": {
+          "label": "Bank Account Formal Statement",
+          "naming_template": "Statements_{bankShort} {accountType} {last4}_Formal Statement_{endDate}",
+          "classifier_signals": [
+            "Statement of Account",
+            "Formal Statement",
+            "Bank header",
+            "opening + closing balance"
+          ],
+          "required_fields": [
+            "bank",
+            "accountType",
+            "last4",
+            "endDate",
+            "accountHolder",
+            "openingBalance",
+            "closingBalance"
+          ],
+          "v2_0": true
+        },
+        "business_account_transactions": {
+          "label": "Business Account Transactions",
+          "naming_template": "Statements_{bankShort} Business Account {last4}_Transactions_{endDate}",
+          "classifier_signals": [
+            "Business Account",
+            "Company / Trust account",
+            "BSB + account",
+            "transactions"
+          ],
+          "required_fields": [
+            "bank",
+            "last4",
+            "endDate"
+          ],
+          "v2_0": false
+        },
+        "business_account_formal_statement": {
+          "label": "Business Account Formal Statement",
+          "naming_template": "Statements_{bankShort} Business Account {last4}_Formal Statement_{endDate}",
+          "classifier_signals": [
+            "Business Account Statement",
+            "company / trust holder",
+            "formal"
+          ],
+          "required_fields": [
+            "bank",
+            "accountType",
+            "last4",
+            "endDate"
+          ],
+          "v2_0": false
+        },
+        "illion_summary": {
+          "label": "Illion (BankStatements.com) Summary",
+          "naming_template": "Statements_Illion Summary_{bank}",
+          "classifier_signals": [
+            "Illion",
+            "BankStatements.com",
+            "categorised transactions",
+            "consolidated bank summary"
+          ],
+          "required_fields": [
+            "bank"
+          ],
+          "v2_0": false
+        },
+        "frollo_financial_passport": {
+          "label": "Frollo Financial Passport (open-banking summary)",
+          "naming_template": "Statements_Frollo Financial Passport_{firstName}",
+          "classifier_signals": [
+            "Frollo",
+            "Financial Passport",
+            "open banking",
+            "consolidated financial position",
+            "accounts overview",
+            "spending categories"
+          ],
+          "required_fields": [
+            "firstName"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "settlement": {
+      "label": "Settlement",
+      "types": {
+        "loan_documents": {
+          "label": "Loan Documents (post-approval pack)",
+          "naming_template": "Settlement_{lender} Loan Documents",
+          "classifier_signals": [
+            "Loan Documents",
+            "Mortgage Documents",
+            "Memorandum of Mortgage",
+            "loan offer pack"
+          ],
+          "required_fields": [
+            "lender"
+          ],
+          "v2_0": false
+        },
+        "discharge_form": {
+          "label": "Discharge Form (outgoing lender)",
+          "naming_template": "Settlement_{lender} Discharge Form",
+          "classifier_signals": [
+            "Discharge Authority",
+            "Discharge of Mortgage",
+            "outgoing lender"
+          ],
+          "required_fields": [
+            "lender"
+          ],
+          "v2_0": false
+        },
+        "certificate_of_currency": {
+          "label": "Certificate of Currency (insurance)",
+          "naming_template": "Settlement_COC_{security}",
+          "classifier_signals": [
+            "Certificate of Currency",
+            "Building Insurance",
+            "insurer letterhead",
+            "sum insured",
+            "property address"
+          ],
+          "required_fields": [
+            "security",
+            "insurer",
+            "sumInsured",
+            "expiry"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "security": {
+      "label": "Security",
+      "types": {
+        "contract_of_sale": {
+          "label": "Contract of Sale",
+          "naming_template": "Security_COS {streetName}",
+          "classifier_signals": [
+            "Contract for the Sale and Purchase of Land",
+            "Section 32 (VIC)",
+            "vendor / purchaser",
+            "deposit"
+          ],
+          "required_fields": [
+            "streetName",
+            "vendorName",
+            "purchaserName",
+            "purchasePrice"
+          ],
+          "v2_0": false
+        },
+        "rates_notice": {
+          "label": "Rates Notice (council)",
+          "naming_template": "Security_Rates Notice_{streetName}",
+          "classifier_signals": [
+            "Council Rates Notice",
+            "local council letterhead",
+            "valuation",
+            "property address"
+          ],
+          "required_fields": [
+            "streetName",
+            "council",
+            "annualRates"
+          ],
+          "v2_0": false
+        },
+        "valuation": {
+          "label": "Property Valuation",
+          "naming_template": "Security_Valuation_{streetName}",
+          "classifier_signals": [
+            "Valuation Report",
+            "Certified Valuer",
+            "market value",
+            "property address"
+          ],
+          "required_fields": [
+            "streetName",
+            "marketValue",
+            "valuationDate"
+          ],
+          "v2_0": false
+        },
+        "building_contract": {
+          "label": "Building Contract",
+          "naming_template": "Security_Building Contract {streetName}",
+          "classifier_signals": [
+            "HIA building contract",
+            "Master Builders contract",
+            "new home construction contract",
+            "builder and owner parties",
+            "contract price",
+            "progress payment schedule",
+            "QBCC licence"
+          ],
+          "required_fields": [
+            "streetName",
+            "builderName",
+            "contractPrice"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "smsf": {
+      "label": "SMSF / Entity Structure",
+      "_category_note": "Added 2026-06-29 for SMSF and corporate-trustee lending. {companyName} resolves to the SMSF fund name (fund-level docs) or the corporate trustee name (company docs); the namer maps fundName/trustName/businessName into companyName.",
+      "types": {
+        "smsf_fund_deed": {
+          "label": "SMSF Trust (Fund) Deed",
+          "naming_template": "SMSF_Fund Deed_{companyName}",
+          "classifier_signals": [
+            "Self Managed Superannuation Fund",
+            "SMSF deed",
+            "Trust Deed",
+            "Deed of Establishment",
+            "establishing the fund",
+            "superannuation fund deed"
+          ],
+          "required_fields": [
+            "companyName"
+          ],
+          "v2_0": false
+        },
+        "smsf_bare_trust_deed": {
+          "label": "Bare Trust / Custodian Deed (LRBA)",
+          "naming_template": "SMSF_Bare Trust Deed_{streetName}",
+          "classifier_signals": [
+            "Bare Trust",
+            "Custodian",
+            "Holding Trust",
+            "Limited Recourse Borrowing",
+            "LRBA",
+            "as trustee for the holding trust"
+          ],
+          "required_fields": [
+            "streetName"
+          ],
+          "v2_0": false
+        },
+        "smsf_trustee_resolution": {
+          "label": "Trustee Resolution / Minutes",
+          "naming_template": "SMSF_Trustee Resolution_{companyName}",
+          "classifier_signals": [
+            "Trustee Resolution",
+            "Minutes of Meeting of",
+            "it was resolved",
+            "trustee minute",
+            "corporate trustee resolution"
+          ],
+          "required_fields": [
+            "companyName"
+          ],
+          "v2_0": false
+        },
+        "smsf_asic_extract": {
+          "label": "ASIC Company Extract (corporate trustee)",
+          "naming_template": "SMSF_ASIC Extract_{companyName}",
+          "classifier_signals": [
+            "ASIC",
+            "Current Company Extract",
+            "Australian Securities and Investments Commission",
+            "company extract",
+            "ACN"
+          ],
+          "required_fields": [
+            "companyName"
+          ],
+          "v2_0": false
+        },
+        "smsf_certificate_of_registration": {
+          "label": "Certificate of Registration (company)",
+          "naming_template": "SMSF_Certificate of Registration_{companyName}",
+          "classifier_signals": [
+            "Certificate of Registration",
+            "is taken to be registered under the Corporations Act",
+            "registered as a company",
+            "Australian Company Number"
+          ],
+          "required_fields": [
+            "companyName"
+          ],
+          "v2_0": false
+        },
+        "smsf_investment_strategy": {
+          "label": "SMSF Investment / Exit Strategy",
+          "naming_template": "SMSF_Exit Strategy_{companyName}",
+          "classifier_signals": [
+            "Investment Strategy",
+            "Exit Strategy",
+            "diversification",
+            "liquidity",
+            "risk and return",
+            "insurance for members"
+          ],
+          "required_fields": [
+            "companyName"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "other": {
+      "label": "Other",
+      "types": {
+        "super_statement": {
+          "label": "Superannuation Statement",
+          "naming_template": "Super Statements_{name}",
+          "classifier_signals": [
+            "Superannuation Statement",
+            "super fund member statement",
+            "balance",
+            "contributions"
+          ],
+          "required_fields": [
+            "name",
+            "fundName",
+            "balance"
+          ],
+          "v2_0": false
+        },
+        "super_details": {
+          "label": "Super Details (summary screen)",
+          "naming_template": "Super Statements Details_{name}",
+          "classifier_signals": [
+            "My Super",
+            "super fund online portal",
+            "balance summary"
+          ],
+          "required_fields": [
+            "name",
+            "fundName",
+            "balance"
+          ],
+          "v2_0": false
+        },
+        "visa_confirmation": {
+          "label": "Visa Confirmation / Grant",
+          "naming_template": "Visa Confirmation_{name}",
+          "classifier_signals": [
+            "Visa Grant",
+            "IMMI Grant Notification",
+            "Grant Notification",
+            "Department of Home Affairs",
+            "visa subclass",
+            "grant date",
+            "grant number"
+          ],
+          "required_fields": [
+            "name",
+            "visaSubclass",
+            "grantDate"
+          ],
+          "v2_0": false
+        },
+        "citizenship_certificate": {
+          "label": "Australian Citizenship (certificate / conferral approval)",
+          "naming_template": "Australian Citizenship_{name}",
+          "classifier_signals": [
+            "Australian Citizenship Certificate",
+            "Approval of Australian citizenship",
+            "citizenship by conferral",
+            "conferral",
+            "Australian Citizenship"
+          ],
+          "required_fields": [
+            "name"
+          ],
+          "v2_0": false
+        },
+        "property_report": {
+          "label": "Property Report (RP Data / Domain / CoreLogic)",
+          "naming_template": "Property Report_{address}",
+          "classifier_signals": [
+            "Property Report",
+            "RP Data",
+            "CoreLogic",
+            "Domain estimate",
+            "median sale prices"
+          ],
+          "required_fields": [
+            "address"
+          ],
+          "v2_0": false
+        }
+      }
+    },
+    "unknown": {
+      "label": "Unknown — open-vocabulary fallback",
+      "_handler": "Returned when no specific type matches with confidence >= 0.85. User reclassifies + Reprocess to teach the system."
+    }
+  }
+}

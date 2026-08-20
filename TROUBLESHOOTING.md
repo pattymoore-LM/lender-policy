@@ -84,6 +84,16 @@ it produced a file. Re-run step 2 and watch the console output this time.
 
 ## Asking questions (step 4)
 
+### It works but opening VS Code to check policy is a pain
+
+Agreed, and you don't have to. VS Code is a developer tool; nobody is going to open
+it mid-call to check whether a lender takes nurse overtime.
+
+Use the Project route instead — see the top of [PORTABLE.md](PORTABLE.md). One paste
+into Chrome gives you a single file; drop it into a Claude or ChatGPT Project and ask
+questions in a normal chat window, including on your phone. That is the route to give
+a team.
+
 ### "I cannot use your VS Code workspace" / "I cannot access that folder"
 
 You're in the wrong Copilot. There are two.
@@ -91,7 +101,7 @@ You're in the wrong Copilot. There are two.
 | | |
 |---|---|
 | **GitHub Copilot** | A VS Code extension. Reads your open folder. **This is the one.** Free tier available — Extensions panel in VS Code, search "GitHub Copilot", install, sign in with a GitHub account. |
-| **Microsoft 365 Copilot** | `m365.cloud.microsoft` — the Word/Excel/Teams one. Runs on Microsoft's servers, cannot see your machine. It is telling you the truth. |
+| **Microsoft 365 Copilot** | `m365.cloud.microsoft` — the Word/Excel/Teams one. **Cannot read these files at all, including from OneDrive or SharePoint** (tested 20/08/2026). It is telling you the truth. Use the Project route in [PORTABLE.md](PORTABLE.md) instead. |
 
 Same name, same company, completely different tools.
 

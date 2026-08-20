@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LM File Audit</title>
+<style>
+  :root{
+    --navy:#012F50; --blue:#00ABE6; --blue-lt:#CCEEF8; --ink:#111827; --line:#D1D5DB;
+    --green:#D1FAE5; --green-ink:#065F46; --amber:#FEF3C7; --amber-ink:#92400E;
+    --red:#FEE2E2; --red-ink:#991B1B; --grey:#E5E7EB; --grey-ink:#374151; --bg:#F7F9FB;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.45 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .page{max-width:1060px;margin:0 auto;padding:0 20px 60px}
+  header{background:var(--navy);color:#fff;padding:22px 26px;border-radius:0 0 10px 10px}
+  header .office{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-lt)}
+  header h1{margin:2px 0 10px;font-size:26px}
+  header .meta{font-size:13px;color:#DCEBF5}
+  header .meta b{color:#fff}
+  .chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700}
+  .chip.assumed{background:var(--amber);color:var(--amber-ink);margin-left:8px}
+  .banner{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+  .banner .card{flex:1;min-width:220px}
+  .kpi{font-size:30px;font-weight:800}
+  .kpi-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#6B7280}
+  .bar{height:8px;background:var(--grey);border-radius:999px;overflow:hidden;margin-top:8px}
+  .bar > div{height:100%;background:var(--blue)}
+  .verdict{font-size:22px;font-weight:800;padding:6px 16px;border-radius:8px;display:inline-block}
+  .v-CLEAN{background:var(--green);color:var(--green-ink)}
+  .v-REVIEW{background:var(--amber);color:var(--amber-ink)}
+  .v-FAIL{background:var(--red);color:var(--red-ink)}
+  .counts{font-size:13px;color:#374151;margin-top:8px}
+  h2{color:var(--navy);border-bottom:3px solid var(--blue);padding-bottom:6px;margin:34px 0 14px;font-size:19px}
+  table{width:100%;border-collapse:collapse;background:#fff;font-size:13px}
+  th{background:var(--blue);color:#fff;text-align:left;padding:8px 10px;font-size:12px}
+  td{border:1px solid var(--line);padding:7px 10px;vertical-align:top}
+  tr.cat td{background:var(--navy);color:#fff;font-weight:700;font-size:13px}
+  tr.na-row td{background:var(--grey);color:var(--grey-ink)}
+  .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  .s-current{background:var(--green);color:var(--green-ink)}
+  .s-stale,.s-check{background:var(--amber);color:var(--amber-ink)}
+  .s-missing{background:var(--red);color:var(--red-ink)}
+  .s-na{background:var(--grey);color:var(--grey-ink)}
+  .sev-high{background:var(--red);color:var(--red-ink)}
+  .sev-medium{background:var(--amber);color:var(--amber-ink)}
+  .sev-low{background:var(--grey);color:var(--grey-ink)}
+  .docname{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+  .tick{color:#059669;font-weight:700}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .doccard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px}
+  .doccard h4{margin:0 0 2px;font-size:13px;word-break:break-word}
+  .doccard .sub{color:#6B7280;font-size:12px;margin-bottom:8px}
+  .doccard ul{margin:6px 0 0;padding-left:18px}
+  .doccard li{margin:3px 0}
+  .flag{background:#fff;border:1px solid var(--line);border-left:6px solid var(--blue);
+        border-radius:8px;padding:12px 16px;margin:10px 0}
+  .flag.high{border-left-color:#DC2626}
+  .flag.medium{border-left-color:#D97706}
+  .flag.low{border-left-color:#9CA3AF}
+  .flag h4{margin:0 0 4px;font-size:14px}
+  .flag .ev{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:var(--bg);
+            padding:6px 8px;border-radius:6px;margin:6px 0;white-space:pre-wrap}
+  .flag .rec{font-size:13px}
+  ol.actions li{margin:7px 0}
+  .empty{color:#6B7280;font-style:italic}
+  footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);
+         font-size:12px;color:#6B7280}
+  .noprint{background:var(--blue-lt);border-radius:8px;padding:10px 14px;margin:16px 0;font-size:13px}
+  @media print{
+    body{background:#fff;font-size:12px}
+    .page{max-width:none;padding:0}
+    .noprint{display:none}
+    header{border-radius:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .doccard,.flag,tr{break-inside:avoid}
+    h2{break-after:avoid}
+  }
+</style>
+</head>
+<body>
+<script type="application/json" id="rules">__RULES_JSON__</script>
+<script type="application/json" id="findings">__FINDINGS_JSON__</script>
+<div class="page" id="app">
+  <noscript><p style="padding:20px">This report needs JavaScript to compute document currency. Open it in any web browser.</p></noscript>
+</div>
+<script>
+"use strict";
+(function(){
+  const $app = document.getElementById("app");
+  const rawF = document.getElementById("findings").textContent.trim();
+  if (rawF.startsWith("__FINDINGS")) {
+    $app.innerHTML = "<div class='card' style='margin-top:30px'><b>This is the empty report template.</b><br>" +
+      "Reports are generated by the file-audit plugin: run <code>/audit &lt;client&gt;</code> in Claude Code.</div>";
+    return;
+  }
+  const F = JSON.parse(rawF);
+  const R = JSON.parse(document.getElementById("rules").textContent);
+  const BACKSTOP = F.freshness_backstop_days || R.freshness_backstop_days || 183;
+
+  // ---------- deterministic date maths (port of linda-agent build_review.py) ----------
+  function parseD(s){
+    if(!s) return null;
+    const m = String(s).slice(0,10).match(/^(\d{4})-(\d{2})-(\d{2})$/) ||
+              String(s).slice(0,10).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if(!m) return null;
+    const iso = m[1].length === 4;
+    const y = iso ? +m[1] : +m[3], mo = +m[2], d = iso ? +m[3] : +m[1];
+    const t = Date.UTC(y, mo-1, d);
+    return isNaN(t) ? null : t;
+  }
+  const DAY = 86400000;
+  function daysBetween(a,b){ return Math.round((a-b)/DAY); }
+  function au(t){
+    if(t===null||t===undefined) return "";
+    const d = new Date(t);
+    const p = n => String(n).padStart(2,"0");
+    return p(d.getUTCDate()) + "/" + p(d.getUTCMonth()+1) + "/" + d.getUTCFullYear();
+  }
+  const runD = parseD(F.run_date) || Date.now();
+
+  const docsById = {};
+  (F.documents||[]).forEach(d => { docsById[d.id] = d; });
+
+  function effectiveMaxAge(doc, categoryId){
+    const ov = (R.category_overrides||{})[categoryId];
+    if (ov && typeof ov[doc.type] === "number") return ov[doc.type];
+    if (typeof doc.max_age_days === "number") return doc.max_age_days;
+    const dc = (R.doc_currency||{})[doc.type];
+    return dc ? dc.max_age_days : null;
+  }
+
+  // True / false / null(unknown). Tighter window always wins; backstop never applies
+  // to expiry or financial_year and never loosens a tighter window.
+  function docInDate(doc, categoryId){
+    if (doc.in_date_override !== null && doc.in_date_override !== undefined)
+      return !!doc.in_date_override;
+    const label = doc.date_label;
+    const dd = parseD(doc.key_date);
+    if (label === "expiry") return dd === null ? null : dd >= runD;
+    if (label === "financial_year")
+      return (doc.is_latest_fy === null || doc.is_latest_fy === undefined) ? null : !!doc.is_latest_fy;
+    if (!label || label === "none" || label === "executed"){
+      if (dd === null) return true;                       // presence-based, no date to assess
+      return daysBetween(runD, dd) <= BACKSTOP;
+    }
+    const mad = effectiveMaxAge(doc, categoryId);
+    if (dd === null || mad === null || mad === undefined) return null;
+    const age = daysBetween(runD, dd);
+    return age < 0 || age <= Math.min(mad, BACKSTOP);
+  }
+
+  function itemStatus(item){
+    if (item.applicable === false) return "na";
+    const docs = (item.doc_ids||[]).map(id => docsById[id]).filter(Boolean);
+    if (!docs.length) return item.optional ? "na" : "missing";
+    const flags = docs.map(d => docInDate(d, item.category_id));
+    const need = item.need || 1;
+    const current = flags.filter(f => f === true).length;
+    if (current >= need) return "current";
+    if (flags.some(f => f === null) && !flags.some(f => f === false)) return "check";
+    return "stale";
+  }
+
+  function docDateLabel(doc){
+    const dd = parseD(doc.key_date);
+    if (doc.date_label === "expiry") return dd !== null ? "exp " + au(dd) : "exp ?";
+    if (doc.date_label === "financial_year") return doc.key_date ? "FY" + doc.key_date : "FY ?";
+    if (doc.date_label === "executed") return dd !== null ? "executed " + au(dd) : "executed";
+    if (!doc.date_label || doc.date_label === "none") return "on file";
+    return dd !== null ? au(dd) : "?";
+  }
+
+  const STATUS_WORD = {current:"Held, current", stale:"Out of date", missing:"Missing", check:"Check", na:"N/A"};
+  const DEFAULT_ACTION = {current:"Held and current. Do not re-request.",
+    stale:"On file but out of date. Request a fresh copy.",
+    missing:"Not held. Request from client.",
+    check:"On file but currency cannot be confirmed. Verify the date.",
+    na:"Not applicable to this deal."};
+
+  // ---------- authenticity roll-up ----------
+  const AUTH_CHECKS = new Set(["pdf_tamper","doc_altered","template_generator","payslip_arithmetic",
+    "ytd_progression","abn_invalid","paygw_implausible","super_mismatch","balance_continuity",
+    "salary_credit_mismatch","employer_mismatch","name_mismatch","dob_mismatch","wrong_person_doc",
+    "visual_inconsistency","spelling_grammar","metadata_conflict"]);
+  const authFlags = (F.red_flags||[]).filter(f => AUTH_CHECKS.has(f.check));
+  const conductFlags = (F.red_flags||[]).filter(f => !AUTH_CHECKS.has(f.check));
+  function fileVerdict(){
+    const dv = (F.documents||[]).map(d => (d.authenticity && d.authenticity.verdict) || "review");
+    if (dv.includes("fail") || authFlags.some(f => f.severity === "high")) return "FAIL";
+    if (dv.includes("review") || authFlags.some(f => f.severity === "medium")) return "REVIEW";
+    return "CLEAN";
+  }
+
+  // ---------- checklist tallies ----------
+  const items = F.checklist_items || [];
+  const statuses = items.map(itemStatus);
+  const tally = {current:0, stale:0, missing:0, check:0, na:0};
+  statuses.forEach(s => tally[s]++);
+  const applicable = statuses.filter(s => s !== "na").length;
+  const pct = applicable ? Math.round(100 * tally.current / applicable) : 0;
+  const verdict = fileVerdict();
+
+  // ---------- render helpers ----------
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const pill = s => `<span class="pill s-${s}">${STATUS_WORD[s]}</span>`;
+  const sev = s => `<span class="pill sev-${s}">${s.toUpperCase()}</span>`;
+  let html = "";
+
+  // header
+  const office = (F.office && F.office.name) || "Loan Market";
+  document.title = `${F.client} — File Audit ${au(runD)}`;
+  const dp = F.deal_profile || {};
+  const assumed = dp.confirmed ? "" : `<span class="chip assumed">ASSUMED — confirm with broker</span>`;
+  const profileBits = [dp.purpose, dp.doc_basis].filter(x => x && x !== "unknown").join(" · ") || "profile not determined";
+  html += `<header>
+    <div class="office">${esc(office)} — Document File Audit</div>
+    <h1>${esc(F.client||"")}</h1>
+    <div class="meta"><b>Deal profile:</b> ${esc(profileBits)}${assumed}
+      &nbsp;·&nbsp; <b>Run date:</b> ${au(runD)}
+      &nbsp;·&nbsp; <b>Documents:</b> ${(F.documents||[]).length}
+      &nbsp;·&nbsp; <b>Pages read:</b> ${(F.documents||[]).reduce((a,d)=>a+(d.pages_read||0),0)}</div>
+  </header>`;
+  if (dp.basis) html += `<div class="noprint"><b>Profile basis:</b> ${esc(dp.basis)}</div>`;
+
+  // 1 verdict banner
+  html += `<div class="banner">
+    <div class="card"><div class="kpi-label">Checklist completeness</div>
+      <div class="kpi">${pct}%</div>
+      <div class="bar"><div style="width:${pct}%"></div></div>
+      <div class="counts">${tally.current} current · ${tally.stale} out of date · ${tally.missing} missing · ${tally.check} to check · ${applicable} items apply</div></div>
+    <div class="card"><div class="kpi-label">Document authenticity</div>
+      <div style="margin-top:6px"><span class="verdict v-${verdict}">${verdict}</span></div>
+      <div class="counts">${authFlags.length} authenticity flag(s) · ${conductFlags.length} conduct flag(s) · ${(F.policy_flags||[]).length} policy note(s)</div></div>
+  </div>`;
+
+  // 2 checklist
+  html += `<h2>1. Minimum supporting documents checklist</h2>
+  <div style="overflow-x:auto"><table><thead><tr>
+    <th style="width:26%">Loan Market minimum requirement</th><th>Rule</th><th>Status</th>
+    <th style="width:20%">Document(s) held</th><th>Doc date</th><th>In date?</th><th style="width:22%">Action</th>
+  </tr></thead><tbody>`;
+  const catOrder = [];
+  const byCat = {};
+  items.forEach((it,i) => {
+    const key = it.category_id || "other";
+    if (!byCat[key]) { byCat[key] = {label: it.category_label || key, items: [], applicable: it.applicable !== false, basis: it.basis}; catOrder.push(key); }
+    byCat[key].items.push([it, statuses[i]]);
+  });
+  const naCats = [];
+  catOrder.forEach(key => {
+    const cat = byCat[key];
+    if (cat.items.every(([it]) => it.applicable === false)) { naCats.push(cat.label); return; }
+    html += `<tr class="cat"><td colspan="7">${esc(cat.label)}${cat.basis ? " — " + esc(cat.basis) : ""}</td></tr>`;
+    cat.items.forEach(([it, st]) => {
+      if (it.applicable === false) return;
+      const docs = (it.doc_ids||[]).map(id => docsById[id]).filter(Boolean);
+      const names = docs.map(d => `<span class="docname">${esc(d.file.split("/").pop())}</span>`).join("<br>") || "—";
+      const dates = docs.map(d => esc(docDateLabel(d)) + (d.date_source === "content" ? ' <span class="tick">✓</span>' : "")).join("<br>") || "—";
+      const flags = docs.map(d => docInDate(d, it.category_id));
+      const ok = flags.filter(f => f === true).length;
+      const need = it.need || 1;
+      const inDate = !docs.length ? "—" : (ok >= need ? "Yes" : (ok ? ok + "/" + need : "No"));
+      html += `<tr><td>${esc(it.requirement)}</td><td>${esc(it.rule_text||"")}</td><td>${pill(st)}</td>
+        <td>${names}</td><td>${dates}</td><td style="text-align:center">${inDate}</td>
+        <td>${esc(it.action || DEFAULT_ACTION[st])}</td></tr>`;
+    });
+  });
+  if (naCats.length) html += `<tr class="na-row"><td colspan="7">Not applicable to this deal: ${esc(naCats.join(",  "))}</td></tr>`;
+  html += `</tbody></table></div>`;
+
+  // 3 outstanding
+  html += `<h2>2. Outstanding documents to request</h2>`;
+  const outstanding = [];
+  catOrder.forEach(key => byCat[key].items.forEach(([it, st]) => {
+    if (["stale","missing","check"].includes(st))
+      outstanding.push(`<tr><td>${esc(byCat[key].label)}</td><td>${esc(it.requirement)}</td>
+        <td>${esc(it.rule_text||"")}</td><td>${pill(st)}</td><td>${esc(it.action || DEFAULT_ACTION[st])}</td></tr>`);
+  }));
+  if (outstanding.length)
+    html += `<div style="overflow-x:auto"><table><thead><tr><th>Category</th><th style="width:30%">What is needed</th><th>Why (rule)</th><th>Status</th><th style="width:26%">Note</th></tr></thead><tbody>${outstanding.join("")}</tbody></table></div>`;
+  else html += `<p class="empty">Nothing outstanding. Every applicable item is held and current.</p>`;
+  if ((F.unclassified||[]).length){
+    html += `<h3 style="color:var(--navy)">Files not assessed</h3><ul>` +
+      F.unclassified.map(u => `<li><span class="docname">${esc(u.file)}</span> — ${esc(u.reason)}</li>`).join("") + `</ul>`;
+  }
+
+  // 4 authenticity
+  html += `<h2>3. Document authenticity</h2>`;
+  html += `<div class="cards">` + (F.documents||[]).map(d => {
+    const a = d.authenticity || {};
+    const v = a.verdict || "review";
+    const checks = a.checks || [];
+    const passed = checks.filter(c => c.result === "pass").length;
+    const flagged = checks.filter(c => c.result === "flag");
+    const vs = v === "fail" ? "missing" : (v === "review" ? "check" : "current");
+    const vword = v === "fail" ? "FAIL" : (v === "review" ? "REVIEW" : "CLEAN");
+    let card = `<div class="doccard"><h4>${esc(d.file.split("/").pop())}</h4>
+      <div class="sub">${esc((d.type||"unknown").replace(/_/g," "))} · pages ${d.pages_read||0}/${d.pages_total||"?"}` +
+      (a.producer ? ` · ${esc(a.producer)}` : "") + `</div>
+      <span class="pill s-${vs}">${vword}</span> <span style="color:#6B7280;font-size:12px">${passed} check(s) passed</span>`;
+    const lines = [];
+    flagged.forEach(c => lines.push(`<li>⚠ <b>${esc(c.name)}</b>: ${esc(c.detail||"")}</li>`));
+    (a.tamper_signals||[]).forEach(s => lines.push(`<li>⚠ ${esc(s.detail || s.signal || s)}</li>`));
+    if (typeof a.fraud_score === "number") lines.push(`<li>Payslip fraud score: <b>${a.fraud_score}/10</b></li>`);
+    if (d.tfn_present) lines.push(`<li>TFN present on document (value not recorded)</li>`);
+    if (lines.length) card += `<ul>${lines.join("")}</ul>`;
+    return card + `</div>`;
+  }).join("") + `</div>`;
+  if (authFlags.length){
+    html += `<h3 style="color:var(--navy);margin-top:22px">Authenticity flags</h3>`;
+    ["high","medium","low"].forEach(s => authFlags.filter(f => f.severity === s).forEach(f => {
+      html += `<div class="flag ${s}"><h4>${sev(s)} ${esc(f.summary)}</h4>` +
+        (f.evidence ? `<div class="ev">${esc(f.evidence)}</div>` : "") +
+        `<div class="rec">${esc(f.recommendation||"")}</div></div>`;
+    }));
+  } else html += `<p class="empty" style="margin-top:14px">No authenticity flags raised.</p>`;
+
+  // 5 policy
+  html += `<h2>4. Policy considerations</h2>`;
+  if ((F.policy_flags||[]).length){
+    (F.policy_flags||[]).forEach(f => {
+      html += `<div class="flag medium"><h4>${esc(f.topic)}</h4>
+        <div class="rec"><b>Observed:</b> ${esc(f.observed)}<br>
+        <b>Why it matters:</b> ${esc(f.why_it_matters)}<br>
+        <b>Resolve with:</b> ${esc(f.resolving_evidence)}</div></div>`;
+    });
+  } else html += `<p class="empty">No policy constraints observed in the documents held.</p>`;
+
+  // 6 credit officer notes
+  html += `<h2>5. Notes for the credit officer</h2>`;
+  if (conductFlags.length){
+    ["high","medium","low"].forEach(s => conductFlags.filter(f => f.severity === s).forEach(f => {
+      html += `<div class="flag ${s}"><h4>${sev(s)} ${esc(f.summary)}</h4>` +
+        (f.evidence ? `<div class="ev">${esc(f.evidence)}</div>` : "") +
+        `<div class="rec">${esc(f.recommendation||"")}</div></div>`;
+    }));
+  }
+  const actions = [];
+  catOrder.forEach(key => byCat[key].items.forEach(([it, st]) => {
+    if (["stale","missing","check"].includes(st)) actions.push(it.action || (DEFAULT_ACTION[st] + " (" + it.requirement.slice(0,80) + (it.requirement.length>80?"…":"") + ")"));
+  }));
+  (F.red_flags||[]).filter(f => f.severity !== "low").forEach(f => { if (f.recommendation) actions.push(f.recommendation); });
+  (F.policy_flags||[]).forEach(f => { if (f.resolving_evidence) actions.push(f.resolving_evidence); });
+  if (actions.length){
+    html += `<h3 style="color:var(--navy)">Consolidated action list</h3><ol class="actions">` +
+      actions.map(a => `<li>${esc(a)}</li>`).join("") + `</ol>`;
+  } else html += `<p class="empty">No actions. The file is complete, current and clean.</p>`;
+
+  if ((F.notes||[]).length)
+    html += `<h3 style="color:var(--navy)">Auditor caveats</h3><ul>` + F.notes.map(n => `<li>${esc(n)}</li>`).join("") + `</ul>`;
+
+  html += `<div class="noprint">To share this report, use your browser's <b>Print → Save as PDF</b>. Some email systems strip the interactive parts of raw HTML files.</div>`;
+  html += `<footer>Checked against LM Checklist (Minimum Requirements) v4, 4 October 2024 · freshness backstop ${BACKSTOP} days ·
+    generated by ${esc(F.generated_by||"file-audit")} on ${au(runD)}<br>
+    Document-completeness and authenticity screening only, not credit advice. Forensic signals are investigation leads, not proof.
+    Final judgement on every document and any recommendation rests with the broker.</footer>`;
+
+  $app.innerHTML = html;
+})();
+</script>
+</body>
+</html>

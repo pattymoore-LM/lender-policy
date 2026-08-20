@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "source": "LM Checklist (Minimum Requirements) v4, 4 October 2024",
+  "_comment": "LM doc-pack minimum requirements per NCCP / Best Interests Duty. Each category has items that must be satisfied. 'matches' arrays reference doc-type keys from doc-type-taxonomy.json; if ANY doc in the batch matches, the item is ticked. 'logic' = 'one-of' (at least one match satisfies) | 'all' (every match required) | 'count-N' (need N+ matching docs).",
+  "categories": {
+    "client_identification": {
+      "label": "Client identification",
+      "always_required": true,
+      "items": [
+        {
+          "label": "2 forms of clear, legible ID for all applicants (at least 1 with current residential address)",
+          "logic": "count-2",
+          "matches": ["drivers_licence", "passport", "medicare_card", "marriage_certificate", "birth_certificate"]
+        },
+        {
+          "label": "Statutory Declaration for any change-of-name",
+          "logic": "one-of",
+          "optional": true,
+          "matches": ["statutory_declaration"]
+        }
+      ],
+      "notes": [
+        "If original ID not sighted, must be certified by JP or Australia Post (in person or live video).",
+        "Smart Data Process IDs are treated as certified.",
+        "Lender's own ID policy may impose stricter requirements."
+      ]
+    },
+    "compliance_documents": {
+      "label": "Compliance documents",
+      "always_required": true,
+      "items": [
+        { "label": "Client-executed Privacy Consent (one touch or standalone)", "logic": "one-of", "matches": ["privacy_consent"] },
+        { "label": "Client-executed Game Plan", "logic": "one-of", "matches": ["game_plan"] },
+        { "label": "Client-executed Quote (if a fee is charged)", "logic": "one-of", "optional": true, "matches": ["client_quote"] }
+      ]
+    },
+    "payg_income": {
+      "label": "PAYG income",
+      "applicable_when": "any applicant is PAYG-employed",
+      "items": [
+        {
+          "label": "1 month bank statement <90 days with account name visible + confirming salary credits",
+          "logic": "one-of",
+          "matches": ["bank_account_transactions", "bank_account_formal_statement"]
+        },
+        {
+          "label": "1 payslip with 2+ pay cycles in YTD (most recent <60 days) OR employment letter / contract / payment summary / Tax Return / ATO NOA / ATO portal extract",
+          "logic": "one-of",
+          "matches": ["payslip", "employment_letter", "employment_contract", "tax_return", "notice_of_assessment", "ato_portal"]
+        }
+      ],
+      "notes": [
+        "TFN must be redacted on all docs.",
+        "FOREIGN INCOME: also requires NAATI-translated payslips + employer letter + internet search of employer website."
+      ]
+    },
+    "self_employed_full_doc_sole_trader": {
+      "label": "Self-employed full doc — Sole Trader",
+      "applicable_when": "applicant is sole trader on full doc loan",
+      "items": [
+        { "label": "Latest 1yr personal Tax Return", "logic": "one-of", "matches": ["personal_tax_return", "tax_return"] },
+        { "label": "Latest ATO Notice of Assessment", "logic": "one-of", "matches": ["notice_of_assessment"] },
+        { "label": "ASIC ABN Search (saved in MyCRM)", "logic": "one-of", "matches": ["asic_abn_search"] },
+        {
+          "label": "ONE of: Tax portal 12mo statements / 12mo BAS / 2nd year Tax Return + financials",
+          "logic": "one-of",
+          "matches": ["ato_portal", "bas_statement", "company_trust_financials", "company_trust_tax_return"]
+        }
+      ]
+    },
+    "self_employed_full_doc_partnership": {
+      "label": "Self-employed full doc — Partnership",
+      "applicable_when": "applicant is in a partnership on full doc loan",
+      "items": [
+        { "label": "Latest Partnership Tax Return", "logic": "one-of", "matches": ["company_trust_tax_return"] },
+        { "label": "Financial statements (P&L + balance sheet)", "logic": "one-of", "matches": ["company_trust_financials"] },
+        { "label": "Latest 1yr personal Tax Return (applicable partners)", "logic": "one-of", "matches": ["personal_tax_return", "tax_return"] },
+        { "label": "Latest ATO Notice of Assessment", "logic": "one-of", "matches": ["notice_of_assessment"] },
+        { "label": "ASIC ABN Search", "logic": "one-of", "matches": ["asic_abn_search"] },
+        { "label": "ONE of: Tax portal 12mo / 12mo BAS / 2nd year TR + financials", "logic": "one-of", "matches": ["ato_portal", "bas_statement", "company_trust_financials", "company_trust_tax_return"] }
+      ]
+    },
+    "self_employed_full_doc_company": {
+      "label": "Self-employed full doc — Company",
+      "applicable_when": "applicant is director of a company on full doc loan",
+      "items": [
+        { "label": "Latest Company Tax Return", "logic": "one-of", "matches": ["company_trust_tax_return"] },
+        { "label": "Financial statements (P&L + balance sheet)", "logic": "one-of", "matches": ["company_trust_financials"] },
+        { "label": "Latest 1yr personal Tax Return (directors)", "logic": "one-of", "matches": ["personal_tax_return", "tax_return"] },
+        { "label": "Latest ATO Notice of Assessment", "logic": "one-of", "matches": ["notice_of_assessment"] },
+        { "label": "ASIC ABN Search", "logic": "one-of", "matches": ["asic_abn_search"] },
+        { "label": "ONE of: Tax portal 12mo / 12mo BAS / 2nd year TR + financials", "logic": "one-of", "matches": ["ato_portal", "bas_statement", "company_trust_financials", "company_trust_tax_return"] }
+      ]
+    },
+    "self_employed_alt_doc_opt1": {
+      "label": "Self-employed alt doc (OPT1)",
+      "applicable_when": "applicant on alt-doc loan (option 1)",
+      "items": [
+        { "label": "Evidence of GST registration + ABN search (6+ months) + 24mo industry experience", "logic": "one-of", "matches": ["asic_abn_search"] },
+        { "label": "6 months of BAS statements", "logic": "one-of", "matches": ["bas_statement"] },
+        { "label": "6 months of business account statements", "logic": "one-of", "matches": ["business_account_transactions", "business_account_formal_statement"] }
+      ]
+    },
+    "self_employed_alt_doc_opt2": {
+      "label": "Self-employed alt doc (OPT2)",
+      "applicable_when": "applicant on alt-doc loan (option 2)",
+      "items": [
+        { "label": "Evidence of GST registration + ABN search (6+ months) + 24mo industry experience", "logic": "one-of", "matches": ["asic_abn_search"] },
+        { "label": "Accountant income declaration on letterhead", "logic": "one-of", "matches": ["accountants_letter"] },
+        { "label": "ONE of: 6mo BAS / 6mo business account statements", "logic": "one-of", "matches": ["bas_statement", "business_account_transactions", "business_account_formal_statement"] }
+      ]
+    },
+    "rental_income": {
+      "label": "Rental income",
+      "applicable_when": "applicant has rental income",
+      "items": [
+        {
+          "label": "ONE of: tenancy agreement / rental statement / 3mo bank stmts showing rent receipt (<60 days) / valuation report / signed rental estimate",
+          "logic": "one-of",
+          "matches": ["rental_income_statement", "rental_appraisal", "bank_account_transactions", "bank_account_formal_statement", "valuation"]
+        }
+      ]
+    },
+    "government_income": {
+      "label": "Government income (Centrelink / family benefits / pension)",
+      "applicable_when": "applicant has government income",
+      "items": [
+        {
+          "label": "ONE of: Centrelink statement (<60 days) / 3mo bank stmts showing income (<60 days)",
+          "logic": "one-of",
+          "matches": ["centrelink_statement", "bank_account_transactions", "bank_account_formal_statement"]
+        }
+      ],
+      "notes": ["CRN must be redacted."]
+    },
+    "investment_income": {
+      "label": "Investment income (dividends / interest)",
+      "applicable_when": "applicant has dividend or interest income",
+      "items": [
+        { "label": "Most recent full Tax Return + ATO Final NOA", "logic": "one-of", "matches": ["tax_return", "personal_tax_return", "notice_of_assessment"] },
+        {
+          "label": "Payment statements OR 3mo bank stmts showing receipt (<60 days)",
+          "logic": "one-of",
+          "matches": ["dividend_statement", "bank_account_transactions", "bank_account_formal_statement"]
+        }
+      ]
+    },
+    "living_expenses": {
+      "label": "Living expenses",
+      "always_required": true,
+      "items": [
+        {
+          "label": "3mo statements of ALL relevant bank + credit card accounts (<60 days, account name visible)",
+          "logic": "one-of",
+          "matches": ["bank_account_transactions", "bank_account_formal_statement", "credit_card_statement", "credit_card_transactions"]
+        },
+        {
+          "label": "Rent-free letter from property owner (if applicable)",
+          "logic": "one-of",
+          "optional": true,
+          "matches": ["rent_free_letter"]
+        }
+      ],
+      "notes": ["All expenses must be entered in MyCRM / Online Fact Find."]
+    },
+    "child_support": {
+      "label": "Child support maintenance payment",
+      "applicable_when": "applicant has child support obligations",
+      "items": [
+        {
+          "label": "ONE of: CSA Notice / Court order / 3mo bank stmts showing payment (<60 days)",
+          "logic": "one-of",
+          "matches": ["child_support_statement", "bank_account_transactions", "bank_account_formal_statement"]
+        }
+      ],
+      "notes": ["CRN must be redacted."]
+    },
+    "existing_liabilities_not_refinanced": {
+      "label": "Existing liabilities NOT being refinanced",
+      "applicable_when": "applicant has existing liabilities (CC, PL, HL, car loan, etc.)",
+      "items": [
+        {
+          "label": "Account statement <60 days (with account name) OR CCR (3mo conduct, latest <45 days)",
+          "logic": "one-of",
+          "matches": ["credit_card_statement", "credit_card_transactions", "home_loan_formal_statement", "home_loan_transactions", "home_loan_details", "personal_loan_statement", "car_loan_statement", "equifax_credit_report"]
+        }
+      ],
+      "notes": ["CC repayment buffer = 3.80% of limit (minimum)."]
+    },
+    "miscellaneous_liabilities": {
+      "label": "Miscellaneous Liabilities (ATO + BNPL)",
+      "applicable_when": "applicant has ATO debts or BNPL accounts",
+      "items": [
+        { "label": "Copy of ATO debts from ATO portal", "logic": "one-of", "optional": true, "matches": ["ato_portal"] },
+        { "label": "Copy of BNPL current balance (Afterpay / Zip / Klarna / etc.)", "logic": "one-of", "optional": true, "matches": ["bnpl_statement"] }
+      ]
+    },
+    "refinancing": {
+      "label": "Refinancing — liabilities being refinanced / consolidated",
+      "applicable_when": "loan purpose includes refinance or debt consolidation",
+      "items": [
+        {
+          "label": "Most recent 3mo account statements (<60 days) OR CCR (3mo conduct, latest <45 days)",
+          "logic": "one-of",
+          "matches": ["home_loan_formal_statement", "home_loan_transactions", "home_loan_details", "personal_loan_statement", "car_loan_statement", "credit_card_statement", "credit_card_transactions", "equifax_credit_report"]
+        }
+      ]
+    },
+    "purchases": {
+      "label": "Purchases",
+      "applicable_when": "loan purpose is purchase",
+      "items": [
+        { "label": "Fully executed Contract of Sale", "logic": "one-of", "matches": ["contract_of_sale"] },
+        {
+          "label": "Evidence of funds to complete OR statutory declaration / gift letter",
+          "logic": "one-of",
+          "matches": ["bank_account_formal_statement", "bank_account_transactions", "statutory_declaration", "gift_letter"]
+        }
+      ]
+    },
+    "construction": {
+      "label": "Construction",
+      "applicable_when": "loan is a construction loan",
+      "items": [
+        { "label": "Plans and specifications", "logic": "one-of", "matches": ["construction_plans"] },
+        { "label": "Fixed-price builder's contract", "logic": "one-of", "matches": ["builders_contract"] }
+      ]
+    },
+    "security_guarantors": {
+      "label": "Security Guarantors",
+      "applicable_when": "guarantor providing security",
+      "items": [
+        { "label": "Guarantor-executed Privacy Consent", "logic": "one-of", "matches": ["privacy_consent"] },
+        { "label": "Guarantor-executed Game Plan", "logic": "one-of", "matches": ["game_plan"] },
+        { "label": "3mo bank stmts showing repayment history (<60 days) if loan on property", "logic": "one-of", "optional": true, "matches": ["bank_account_transactions", "bank_account_formal_statement", "home_loan_transactions", "home_loan_formal_statement"] },
+        { "label": "Broker notes + discussions with guarantor", "logic": "one-of", "matches": ["broker_notes"] }
+      ]
+    },
+    "servicing_guarantors": {
+      "label": "Servicing Guarantors",
+      "applicable_when": "guarantor providing servicing only",
+      "items": [
+        { "label": "Guarantor-executed Privacy Consent", "logic": "one-of", "matches": ["privacy_consent"] },
+        { "label": "Guarantor-executed Game Plan", "logic": "one-of", "matches": ["game_plan"] },
+        { "label": "Broker notes + discussions with guarantor", "logic": "one-of", "matches": ["broker_notes"] }
+      ]
+    },
+    "lender_application": {
+      "label": "Lender application",
+      "always_required": true,
+      "items": [
+        { "label": "Client signed + dated lender Privacy Consent", "logic": "one-of", "matches": ["privacy_consent"] },
+        { "label": "Serviceability calculator (MyCRM or recommended lender)", "logic": "one-of", "matches": ["serviceability_calculator"] },
+        { "label": "File notes capturing all client + lender interactions", "logic": "one-of", "matches": ["broker_notes"] },
+        { "label": "All email communications to lender and client", "logic": "one-of", "optional": true, "matches": [] }
+      ]
+    },
+    "additional_documents": {
+      "label": "Additional documents",
+      "items": [
+        {
+          "label": "Super statement OR ATO portal super balance (if needed for exit strategy)",
+          "logic": "one-of",
+          "optional": true,
+          "matches": ["super_statement", "super_details", "ato_portal"]
+        }
+      ]
+    },
+    "trusts": {
+      "label": "Trusts",
+      "applicable_when": "applicant is a trustee or trust beneficiary",
+      "items": [
+        { "label": "Latest trust Tax Return", "logic": "one-of", "matches": ["company_trust_tax_return"] },
+        { "label": "Financial statements (P&L + balance sheet)", "logic": "one-of", "matches": ["company_trust_financials"] },
+        { "label": "Latest 1yr personal Tax Return (relevant beneficiaries)", "logic": "one-of", "matches": ["personal_tax_return", "tax_return"] },
+        { "label": "Latest ATO Notice of Assessment", "logic": "one-of", "matches": ["notice_of_assessment"] },
+        { "label": "ASIC ABN Search", "logic": "one-of", "matches": ["asic_abn_search"] },
+        { "label": "ONE of: Tax portal 12mo / 12mo BAS / 2nd year TR + financials", "logic": "one-of", "matches": ["ato_portal", "bas_statement", "company_trust_financials", "company_trust_tax_return"] }
+      ]
+    },
+    "reverse_mortgages": {
+      "label": "Reverse Mortgages",
+      "applicable_when": "loan is a reverse mortgage",
+      "items": [
+        { "label": "Reverse Mortgage Information statement provided to clients", "logic": "one-of", "matches": ["reverse_mortgage_info_statement"] },
+        { "label": "Equity projections (MoneySmart-generated) provided before Game Plan", "logic": "one-of", "matches": ["equity_projection"] }
+      ],
+      "notes": ["Reverse Mortgage accreditation is required to sell this product."]
+    },
+    "consumer_asset_personal_loans": {
+      "label": "Consumer asset finance / personal loans",
+      "applicable_when": "loan is for asset finance or personal loan",
+      "items": [
+        { "label": "Tax invoice of asset being purchased (if secured)", "logic": "one-of", "optional": true, "matches": ["tax_invoice"] },
+        { "label": "Client-executed Quote (if brokerage / origination fee charged)", "logic": "one-of", "optional": true, "matches": ["client_quote"] },
+        { "label": "Certificate of Registration of security (if required by lender)", "logic": "one-of", "optional": true, "matches": ["certificate_of_registration"] },
+        { "label": "Serviceability calculator (MyCRM or recommended lender)", "logic": "one-of", "matches": ["serviceability_calculator"] }
+      ]
+    }
+  }
+}
