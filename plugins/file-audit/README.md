@@ -56,7 +56,7 @@ A full audit reads every page of every document, and that's the point - page 3 o
 
 ## Updating
 
-New versions install automatically when you restart Claude Code. Nothing to do.
+Third-party marketplaces don't update themselves by default. Turn it on once: `/plugin` → **Marketplaces** → `broker-tools` → auto-update. Or refresh by hand any time with `/plugin marketplace update broker-tools`, then restart Claude Code to apply.
 
 ## Sharing
 
