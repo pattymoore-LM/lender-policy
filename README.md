@@ -1,4 +1,20 @@
-# Lender Policy KB
+# broker-tools
+
+Two Claude Code plugins for Australian mortgage brokers. Add the marketplace once and
+you get both:
+
+```
+/plugin marketplace add pattymoore-LM/lender-policy
+```
+
+| | |
+|---|---|
+| **[lender-policy](#lender-policy)** | Your Quickli policy library, searchable in plain English. |
+| **[file-audit](#file-audit)** | Read-only compliance audit of a client's document folder, with fraud detection. |
+
+---
+
+# lender-policy
 
 Ask your lender policy library a question in plain English and get every lender's position in seconds, with the policy line quoted verbatim and a freshness date.
 
@@ -23,16 +39,6 @@ Two lines inside Claude Code. No Terminal, no git, no GitHub account.
 Then `/policy build` for the first pull. Takes a few minutes.
 
 Stuck? **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** covers every failure anyone has hit so far.
-
-## Also in this marketplace: file-audit
-
-A read-only compliance audit of a client's document folder — fraud detection (PDF tamper forensics, payslip arithmetic, cross-document identity checks) plus validation against the LM minimum supporting documents checklist, delivered as a branded HTML report for the credit officer.
-
-```
-/plugin install file-audit@broker-tools
-```
-
-Then `/audit doctor`, `/audit demo`, `/audit setup`, and you're auditing. Details in **[plugins/file-audit/README.md](plugins/file-audit/README.md)**.
 
 ## Not on Claude Code?
 
@@ -103,8 +109,70 @@ Refreshes are incremental: only lenders whose policy actually moved get re-pulle
 
 When Quickli changes something and the pull breaks, I fix it here and bump the version. Your Claude Code picks it up on the next session. You don't have to do anything.
 
+---
+
+# file-audit
+
+**The file check you'd do if you had an hour per client.** A read-only audit of one
+client's document folder, doing two jobs at once.
+
+**Fraud detection.** Is every document what it claims to be? PDF metadata forensics
+(what software made it, was it modified after the pay date, hidden edit markers),
+payslip arithmetic that must reconcile to the cent, YTD progression across payslips,
+ABN check digits, bank-statement balance continuity, salary credits tied back to
+payslips, and name and DOB consistency across every document.
+
+**Checklist validation.** Does the file meet the Loan Market minimum supporting
+documents checklist? Every item checked as present, in date and showing the right
+data, with the freshness windows computed by code rather than judgement.
+
+Every bank statement gets three questions as a minimum: are the salary credits real
+(staging tells — wrong payer, round amounts, wrong cadence, deposit-then-sweep), is
+there gambling, and is money going out to liabilities nobody disclosed.
+
+You get one self-contained HTML report per audit, branded for your office: checklist
+status, the documents still to request, a per-document authenticity card, and a
+consolidated action list for the credit officer.
+
+## Install
+
+```
+/plugin install file-audit@broker-tools
+```
+
+**Then restart Claude Code** — plugins load on start, and until you restart `/audit`
+says "Unknown command".
+
+Then, in order:
+
+```
+/audit-doctor      confirms the install on your machine
+/audit-demo        full audit on a bundled synthetic client — must catch the planted doctored payslip
+/audit-setup       points it at your clients folder, sets your office name
+/audit <surname>   audit a real client
+```
+
+## What it needs
+
+Claude Code, and your client documents in a local folder with one subfolder per
+client — Google Drive for Desktop, Dropbox, OneDrive or a plain folder all work the
+same. Python 3 makes the metadata forensics available; without it everything else
+still runs.
+
+## What it never does
+
+Never writes, renames, moves or deletes anything in a client folder — reports go to
+your output folder only. Never records a TFN or Centrelink CRN anywhere, and the
+report builder refuses to build if one slips in. Never sends anything anywhere.
+Never makes the credit decision: forensic signals are investigation leads, checklist
+verdicts are date arithmetic, and the recommendation always belongs to the broker.
+
+Full detail in [plugins/file-audit/README.md](plugins/file-audit/README.md).
+
+---
+
 ## Credit
 
-Built by Patrick Moore, mortgage broker at Loan Market Clayfield, because clicking through Quickli lender by lender for the same five questions got old.
+Built by Patrick Moore, mortgage broker at Loan Market Clayfield — lender-policy because clicking through Quickli lender by lender for the same five questions got old, file-audit because the document check that catches a doctored payslip takes an hour nobody has.
 
 Not affiliated with or endorsed by Quickli. MIT licensed — see [LICENSE](LICENSE).
