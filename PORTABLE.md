@@ -42,7 +42,24 @@ The file carries its own instructions at the top — quote policy word for word,
 "no entry" rather than guessing, stamp answers with the snapshot date — so there is
 nothing to configure.
 
-### 4. Refresh monthly
+### 4. Add your lenders' own manuals (optional, and where the value is)
+
+Quickli tells you a lender's position. Their credit manual tells you the
+conditions on it, and the manual wins whenever they disagree.
+
+**You don't need any tooling for this.** Download your main lenders' policy PDFs
+from their broker portals and drag them straight into the same Project — Claude and
+ChatGPT both read PDFs. Five or six lenders covers most of a book.
+
+Tell the project, in its instructions: *"The lender PDFs outrank the Quickli file.
+Where they disagree, lead with the PDF and say the summary differs."*
+
+(If you already have manuals ingested into a `primary/` folder from the Terminal
+route, `build-manuals-file.py` combines them into one file instead. It deliberately
+skips servicing-calculator extractions — those are for a calculator, not a policy
+question, and they cost several million tokens for nothing.)
+
+### 5. Refresh monthly
 
 Re-run step 2 and replace the file in your project. Lender policy moves, and a stale
 answer is worse than none.
