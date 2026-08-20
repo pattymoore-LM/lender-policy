@@ -7,15 +7,15 @@
     {
       "name": "lender-policy",
       "source": "./plugins/lender-policy",
-      "version": "2.1.0",
-      "description": "Build a local, searchable lender policy knowledge base from your own Quickli subscription, then ask it questions in plain English.",
+      "version": "2.2.0",
+      "description": "Your Quickli policy library, searchable in plain English. Builds a local copy from YOUR OWN Quickli login and keeps it on your machine \u2014 this plugin ships no policy content. Reads Quickli in your browser, writes only to ~/.claude/lender-policy. Needs a paid Quickli subscription.",
       "category": "research"
     },
     {
       "name": "file-audit",
       "source": "./plugins/file-audit",
-      "version": "1.2.1",
-      "description": "Read-only compliance audit of a client's document folder against the LM minimum supporting documents checklist, with fraud detection built in: PDF tamper forensics, payslip arithmetic, statement continuity, cross-document identity checks. Branded HTML report: checklist status, outstanding documents, red flags for the credit officer.",
+      "version": "1.3.0",
+      "description": "Read-only compliance audit of one client's document folder: fraud detection (PDF tamper forensics, payslip arithmetic, cross-document identity checks) plus the LM minimum supporting documents checklist. READ-ONLY \u2014 never writes, renames or deletes in a client folder, never sends anything anywhere, never records a TFN or CRN. Reports go to your own output folder. Runs entirely on your machine.",
       "category": "compliance"
     }
   ]

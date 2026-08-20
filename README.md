@@ -7,10 +7,17 @@ you get both:
 /plugin marketplace add pattymoore-LM/lender-policy
 ```
 
-| | |
-|---|---|
-| **[lender-policy](#lender-policy)** | Your Quickli policy library, searchable in plain English. |
-| **[file-audit](#file-audit)** | Read-only compliance audit of a client's document folder, with fraud detection. |
+| Plugin | What it does | What it touches |
+|---|---|---|
+| **[lender-policy](#lender-policy)** | Your Quickli policy library, searchable in plain English | Reads Quickli in your browser. Writes to `~/.claude/lender-policy` only. |
+| **[file-audit](#file-audit)** | Compliance audit of a client's document folder, with fraud detection | Reads your client folder, never writes to it. Reports go to your own output folder. |
+
+**Neither plugin sends anything anywhere.** Everything runs on your machine, against
+your own subscriptions and your own files. Nothing is uploaded, and neither plugin
+ships any lender or client content — you build your own from your own logins.
+
+Both are MIT licensed and the source is all here. Read before you install; it's not
+much code.
 
 ---
 
@@ -105,9 +112,22 @@ Refreshes are incremental: only lenders whose policy actually moved get re-pulle
 | **[QUICKSTART.md](QUICKSTART.md)** | The DIY version if you'd rather build it yourself than install a plugin. |
 | **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** | When it doesn't work. Every failure a real person has hit, with the fix. |
 
-## Updates
+## Updates — turn this on once
 
-When Quickli changes something and the pull breaks, I fix it here and bump the version. Your Claude Code picks it up on the next session. You don't have to do anything.
+**Third-party marketplaces do not auto-update by default.** If you leave it off you
+will stay on the version you installed, bugs and all, and never know.
+
+Fix it once: `/plugin` → **Marketplaces** tab → find `broker-tools` → turn on
+auto-update. Now fixes reach you on their own.
+
+Or refresh by hand whenever you like:
+
+```
+/plugin marketplace update broker-tools
+```
+
+Run that same command to see any new plugins added to this marketplace — they won't
+appear on their own until you refresh or enable auto-update.
 
 ---
 

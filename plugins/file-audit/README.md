@@ -22,6 +22,10 @@ Inside Claude Code:
 
 **Then restart Claude Code.** Plugins load on start; until you restart, `/audit` says "Unknown command".
 
+While you're there: `/plugin` → **Marketplaces** → `broker-tools` → turn on
+auto-update. Third-party marketplaces don't update themselves by default, so without
+it you stay on the version you installed.
+
 Then, in order:
 
 ```
