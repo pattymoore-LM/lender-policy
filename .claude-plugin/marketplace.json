@@ -10,6 +10,13 @@
       "version": "2.0.0",
       "description": "Build a local, searchable lender policy knowledge base from your own Quickli subscription, then ask it questions in plain English.",
       "category": "research"
+    },
+    {
+      "name": "file-audit",
+      "source": "./plugins/file-audit",
+      "version": "1.0.0",
+      "description": "Read-only compliance audit of a client's document folder against the LM minimum supporting documents checklist, with fraud detection built in: PDF tamper forensics, payslip arithmetic, statement continuity, cross-document identity checks. Branded HTML report: checklist status, outstanding documents, red flags for the credit officer.",
+      "category": "compliance"
     }
   ]
 }

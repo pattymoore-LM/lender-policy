@@ -29,6 +29,21 @@ FRESHNESS.md
 quickli-policy-snapshot-*.json
 
 # ---------------------------------------------------------------------------
+# file-audit: client material never enters git. Findings and reports are
+# written outside the repo by design; these rules are the backstop if anyone
+# ever runs an audit inside a clone.
+# ---------------------------------------------------------------------------
+audits/
+*findings*.json
+!plugins/file-audit/example/example-findings.json
+*File Audit*.html
+file-audit.config.json
+
+# The bundled demo client is SYNTHETIC SPECIMEN data and must ship despite the
+# global *.pdf rule above. Nothing real ever goes in example/.
+!plugins/file-audit/example/demo-client/**/*.pdf
+
+# ---------------------------------------------------------------------------
 # Housekeeping
 # ---------------------------------------------------------------------------
 __pycache__/

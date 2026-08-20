@@ -24,6 +24,16 @@ Then `/policy build` for the first pull. Takes a few minutes.
 
 Stuck? **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** covers every failure anyone has hit so far.
 
+## Also in this marketplace: file-audit
+
+A read-only compliance audit of a client's document folder — fraud detection (PDF tamper forensics, payslip arithmetic, cross-document identity checks) plus validation against the LM minimum supporting documents checklist, delivered as a branded HTML report for the credit officer.
+
+```
+/plugin install file-audit@broker-tools
+```
+
+Then `/audit doctor`, `/audit demo`, `/audit setup`, and you're auditing. Details in **[plugins/file-audit/README.md](plugins/file-audit/README.md)**.
+
 ## Not on Claude Code?
 
 **Nothing to install.** Paste [one script](plugins/lender-policy/scripts/pull-and-build.js)

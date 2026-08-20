@@ -1,0 +1,18 @@
+{
+  "_comment_key": "category_id::first-60-chars-of-requirement -> status the deterministic engine must compute at run_date 2026-08-20. Any change to the date maths in build_report.py MUST be mirrored in report-template.html's JS and re-proven here.",
+  "client_identification::2 forms of clear, legible ID for all applicants": "current",
+  "client_identification::Statutory Declaration for any change-of-name": "na",
+  "compliance_documents::Client-executed Privacy Consent": "current",
+  "compliance_documents::Client-executed Game Plan": "stale",
+  "compliance_documents::Client-executed Quote (if a fee is charged)": "na",
+  "payg_income::1 month bank statement <90 days confirming salary credits": "current",
+  "payg_income::Payslip with 2+ pay cycles in YTD, most recent <60 days": "current",
+  "payg_income::Last financial year ATO Notice of Assessment": "current",
+  "payg_income::ATO Income Statement (final year) for Sam": "check",
+  "living_expenses::3 months statements of all bank and credit card accounts": "stale",
+  "existing_liabilities_not_refinanced::CCR with 3 months conduct, latest <45 days": "current",
+  "existing_liabilities_not_refinanced::Personal loan statement <60 days": "stale",
+  "purchases::Fully executed Contract of Sale": "current",
+  "purchases::Evidence of funds to complete": "missing",
+  "refinancing::Most recent 3 months loan statements": "na"
+}

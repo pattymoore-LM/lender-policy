@@ -1,0 +1,17 @@
+{
+  "name": "file-audit",
+  "version": "1.0.0",
+  "description": "Read-only compliance audit of a client's document folder: fraud detection (tampering, doctored payslips, metadata, arithmetic) plus validation against the Loan Market minimum supporting documents checklist. Branded HTML report for the credit officer. Australian mortgage brokers.",
+  "author": {
+    "name": "Patrick Moore"
+  },
+  "homepage": "https://github.com/pattymoore-LM/lender-policy",
+  "keywords": [
+    "mortgage",
+    "broker",
+    "compliance",
+    "audit",
+    "fraud-detection",
+    "australia"
+  ]
+}

@@ -1,0 +1,53 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 937 >>
+stream
+BT /F1 10 Tf 14 TL 50 800 Td
+(*** SPECIMEN - SYNTHETIC DEMO DOCUMENT - NOT A REAL RECORD ***) Tj T*
+() Tj T*
+(SUNBANK  Everyday Account 4471   Alex Citizen) Tj T*
+(Statement period 01/07/2026 - 09/08/2026     Page 1 of 1) Tj T*
+(Opening balance 01/07/2026                       $4,180.55) Tj T*
+() Tj T*
+(11/07/2026  SALARY DEMOCORP PTY LTD     +$2,808.00   $6,988.55) Tj T*
+(14/07/2026  WOOLWORTHS DEMOVILLE          -$212.40   $6,776.15) Tj T*
+(18/07/2026  SPORTSBET                     -$200.00   $6,576.15) Tj T*
+(25/07/2026  SALARY DEMOCORP PTY LTD     +$2,808.00   $9,384.15) Tj T*
+(26/07/2026  RENT DEMOVILLE RE            -$650.00    $8,734.15) Tj T*
+(01/08/2026  SPORTSBET                     -$150.00   $8,584.15) Tj T*
+(08/08/2026  SALARY DEMOCORP PTY LTD     +$2,808.00  $11,392.15) Tj T*
+() Tj T*
+(Total credits $8,424.00    Total debits $1,212.40) Tj T*
+(Closing balance 09/08/2026                      $11,392.15) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Producer (PDFlib+PDI 9.0.4 \(SunBank\)) /Creator (SunBank Statement Engine) /CreationDate (D:20260810021000+10'00') >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001229 00000 n 
+0000001299 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 6 0 R >>
+startxref
+1437
+%%EOF

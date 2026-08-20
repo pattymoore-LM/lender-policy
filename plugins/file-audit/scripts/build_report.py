@@ -169,6 +169,7 @@ def selftest():
         sys.exit("selftest FAILED — example findings invalid:\n  " + "\n  ".join(errs))
     _, per_item = compute_tallies(findings, rules)
     got = {f"{p['category_id']}::{p['requirement']}": p["status"] for p in per_item}
+    expected = {k: v for k, v in expected.items() if not k.startswith("_")}
     bad = []
     for key, want in expected.items():
         if got.get(key) != want:

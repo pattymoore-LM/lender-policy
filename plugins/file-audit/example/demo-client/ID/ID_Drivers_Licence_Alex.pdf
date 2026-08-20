@@ -1,0 +1,45 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 370 >>
+stream
+BT /F1 10 Tf 14 TL 50 800 Td
+(*** SPECIMEN - SYNTHETIC DEMO DOCUMENT - NOT A REAL RECORD ***) Tj T*
+() Tj T*
+(QUEENSLAND  DRIVER LICENCE) Tj T*
+(CITIZEN ALEX JAY) Tj T*
+(12 Sample Street, Demoville QLD 4000) Tj T*
+(DOB 12/04/1990          Licence No. 123456789) Tj T*
+(Effective 01/07/2024    Expiry 12/04/2029) Tj T*
+(Class C                 Card No. A1B2C3D4) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Producer (Quartz PDFContext) /Creator (Preview) /CreationDate (D:20260701100000+10'00') >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000662 00000 n 
+0000000732 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 6 0 R >>
+startxref
+842
+%%EOF
